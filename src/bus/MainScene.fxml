@@ -46,6 +46,6 @@
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Label>
-      <Button fx:id="loginButton" layoutX="389.0" layoutY="203.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="66.0" text="Login" />
+      <Button fx:id="loginButton" layoutX="389.0" layoutY="203.0" mnemonicParsing="false" onAction="#loginButtonPressed" prefHeight="25.0" prefWidth="66.0" text="Login" />
    </children>
 </Pane>
