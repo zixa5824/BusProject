@@ -20,19 +20,19 @@
             <Image url="@../bus.jpg" />
          </image>
       </ImageView>
-      <Ellipse fill="#00bfff" layoutX="319.0" layoutY="214.0" radiusX="183.0" radiusY="101.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" />
+      <Ellipse fill="WHITE" layoutX="319.0" layoutY="214.0" opacity="0.79" radiusX="183.0" radiusY="101.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" />
       <RadioButton fx:id="clientButton" layoutX="193.0" layoutY="240.0" mnemonicParsing="false" text="Client">
-         <font>
-            <Font size="14.0" />
-         </font>
          <toggleGroup>
-            <ToggleGroup fx:id="typeGroup" />
-         </toggleGroup></RadioButton>
-      <RadioButton fx:id="driverButton" layoutX="266.0" layoutY="240.0" mnemonicParsing="false" text="Driver" toggleGroup="$typeGroup">
+            <ToggleGroup fx:id="buttons" />
+         </toggleGroup>
          <font>
             <Font size="14.0" />
          </font></RadioButton>
-      <RadioButton fx:id="managerButton" layoutX="340.0" layoutY="240.0" mnemonicParsing="false" text="Manager" toggleGroup="$typeGroup">
+      <RadioButton fx:id="driverButton" layoutX="266.0" layoutY="240.0" mnemonicParsing="false" text="Driver" toggleGroup="$buttons">
+         <font>
+            <Font size="14.0" />
+         </font></RadioButton>
+      <RadioButton fx:id="managerButton" layoutX="340.0" layoutY="240.0" mnemonicParsing="false" text="Manager" toggleGroup="$buttons">
          <font>
             <Font size="14.0" />
          </font></RadioButton>
