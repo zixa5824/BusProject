@@ -13,39 +13,39 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bus.MainSceneController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="541.0" prefWidth="788.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bus.MainSceneController">
    <children>
-      <ImageView fitHeight="417.0" fitWidth="637.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="552.0" fitWidth="818.0" layoutX="-5.0" layoutY="-11.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../bus.jpg" />
          </image>
       </ImageView>
-      <Ellipse fill="WHITE" layoutX="319.0" layoutY="214.0" opacity="0.79" radiusX="183.0" radiusY="101.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" />
-      <RadioButton fx:id="clientButton" layoutX="193.0" layoutY="240.0" mnemonicParsing="false" text="Client">
+      <Ellipse fill="WHITE" layoutX="402.0" layoutY="270.0" opacity="0.79" radiusX="183.0" radiusY="101.0" stroke="WHITE" strokeLineCap="ROUND" strokeLineJoin="ROUND" />
+      <RadioButton fx:id="clientButton" layoutX="276.0" layoutY="296.0" mnemonicParsing="false" text="Client">
          <toggleGroup>
             <ToggleGroup fx:id="buttons" />
          </toggleGroup>
          <font>
             <Font size="14.0" />
          </font></RadioButton>
-      <RadioButton fx:id="driverButton" layoutX="266.0" layoutY="240.0" mnemonicParsing="false" text="Driver" toggleGroup="$buttons">
+      <RadioButton fx:id="driverButton" layoutX="349.0" layoutY="296.0" mnemonicParsing="false" text="Driver" toggleGroup="$buttons">
          <font>
             <Font size="14.0" />
          </font></RadioButton>
-      <RadioButton fx:id="managerButton" layoutX="340.0" layoutY="240.0" mnemonicParsing="false" text="Manager" toggleGroup="$buttons">
+      <RadioButton fx:id="managerButton" layoutX="423.0" layoutY="296.0" mnemonicParsing="false" text="Manager" toggleGroup="$buttons">
          <font>
             <Font size="14.0" />
          </font></RadioButton>
-      <PasswordField fx:id="passwordField" layoutX="236.0" layoutY="202.0" />
-      <Label layoutX="163.0" layoutY="205.0" text="Password:">
+      <PasswordField fx:id="passwordField" layoutX="319.0" layoutY="258.0" />
+      <Label layoutX="246.0" layoutY="261.0" text="Password:">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Label>
-      <TextField fx:id="usernameField" layoutX="236.0" layoutY="169.0" />
-      <Label layoutX="161.0" layoutY="172.0" text="Username:">
+      <TextField fx:id="usernameField" layoutX="319.0" layoutY="225.0" />
+      <Label layoutX="244.0" layoutY="228.0" text="Username:">
          <font>
             <Font name="System Bold" size="14.0" />
          </font></Label>
-      <Button fx:id="loginButton" layoutX="389.0" layoutY="203.0" mnemonicParsing="false" onAction="#loginButtonPressed" prefHeight="25.0" prefWidth="66.0" text="Login" />
+      <Button fx:id="loginButton" layoutX="472.0" layoutY="259.0" mnemonicParsing="false" onAction="#loginButtonPressed" prefHeight="25.0" prefWidth="66.0" text="Login" />
    </children>
 </Pane>
