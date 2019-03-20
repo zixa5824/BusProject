@@ -1,10 +1,7 @@
 package bus;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -13,6 +10,7 @@ import java.util.Scanner;
 
 public class MainSceneController {
 
+    Alert alert;
     String username,password,next;
     FileReader fileReader;
     Scanner actualFileScanner = null;
@@ -44,7 +42,7 @@ public class MainSceneController {
         }
     }
     public boolean checkAccount(String type){
-
+        alert = new Alert(Alert.AlertType.ERROR);
         try {
 
             fileReader = new FileReader("src//accounts.txt");
@@ -65,19 +63,22 @@ public class MainSceneController {
                             return true;
                         }
                         else {
-                            System.out.println("You chose "+type+" but your account is "+next);
+                            alert.setContentText("Your account is not "+type);
+                            alert.show();
                             break;
                         }
                     }
                     else
                     {
-                        System.out.println("Incorrect password: "+password+" is not "+next);
+                        alert.setContentText("Incorrect password");
+                        alert.show();
                         break;
                     }
                 }
 
                 else if(!actualFileScanner.hasNext()){
-                    System.out.println("Incorrect username");
+                    alert.setContentText("Incorrect username");
+                    alert.show();
                     break;
                 }
             }
