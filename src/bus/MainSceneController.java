@@ -46,15 +46,8 @@ public class MainSceneController {
     public boolean checkAccount(String type){
 
         try {
-            if(type.equals("client")) {
-                fileReader = new FileReader("src//clients.txt");
-            }
-            else if(type.equals("driver")) {
-                fileReader = new FileReader("src//drivers.txt");
-            }
-            else if(type.equals("manager")) {
-                fileReader = new FileReader("src//managers.txt");
-            }
+
+            fileReader = new FileReader("src//accounts.txt");
 
             actualFileScanner = new Scanner(fileReader);
 
@@ -66,7 +59,15 @@ public class MainSceneController {
                     next = actualFileScanner.next();
                     if(next.equals(password)){
                         System.out.println("Password found: "+next+"="+password);
-                        return true;
+                        next = actualFileScanner.next();
+                        if(next.equals(type)) {
+                            System.out.println("Type chosen "+type+" = "+next);
+                            return true;
+                        }
+                        else {
+                            System.out.println("You chose "+type+" but your account is "+next);
+                            break;
+                        }
                     }
                     else
                     {
