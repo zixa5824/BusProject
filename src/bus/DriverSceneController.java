@@ -16,17 +16,20 @@ public class DriverSceneController {
 
     @FXML Label nameLabel;
 
+
     public void prepare() {
         // Loading the FXML file and creating its scene
         Parent root = null;
 
         try {
             root = FXMLLoader.load(getClass().getResource("DriverScene.fxml"));
+            scene = new Scene(root);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        scene = new Scene(root, 788, 530);
+
     }
 
     public Scene getScene() {

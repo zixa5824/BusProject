@@ -32,7 +32,7 @@ public class MainSceneController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        scene = new Scene(root, 788, 530);
+        scene = new Scene(root);
     }
 
     public void loginButtonPressed(){
