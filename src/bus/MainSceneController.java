@@ -51,6 +51,7 @@ public class MainSceneController {
                 // Account is correct then make driver scene class and give it the logic account and set stage scene
                 DriverSceneController driverSceneController = new DriverSceneController();
                 driverSceneController.prepare(); // To load FXML file and create the scene
+                driverSceneController.setHomeScene(this.scene);
                 driverSceneController.setAccount(account);
                 stage.setScene(driverSceneController.getScene());
                 System.out.println("Welcome Driver");

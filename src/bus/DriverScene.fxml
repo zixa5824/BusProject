@@ -1,15 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.shape.*?>
 <?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="529.0" prefWidth="788.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bus.DriverSceneController">
+<Pane prefHeight="529.0" prefWidth="788.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bus.DriverSceneController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="200.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-      <Label fx:id="nameLabel" layoutX="345.0" layoutY="70.0" prefHeight="30.0" prefWidth="165.0" text="Test" />
+      <Label fx:id="nameLabel" alignment="CENTER" layoutX="319.0" layoutY="100.0" prefHeight="30.0" prefWidth="165.0" text="Acc">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label alignment="CENTER" layoutX="301.0" layoutY="40.0" prefHeight="46.0" prefWidth="186.0" text="Welcome Driver">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="250.0" layoutY="103.0" prefHeight="23.0" prefWidth="69.0" text="Name:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="250.0" layoutY="156.0" prefHeight="23.0" prefWidth="69.0" text="Salary:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="319.0" layoutY="154.0" prefHeight="30.0" prefWidth="165.0" text="Acc">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="250.0" layoutY="214.0" prefHeight="23.0" prefWidth="69.0" text="Vehicle:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="319.0" layoutY="212.0" prefHeight="30.0" prefWidth="165.0" text="Acc">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tripsTable" layoutX="101.0" layoutY="310.0" prefHeight="153.0" prefWidth="602.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="#" />
+          <TableColumn prefWidth="75.0" text="Source" />
+            <TableColumn prefWidth="75.0" text="Destination" />
+            <TableColumn prefWidth="75.0" text="Depart Time" />
+            <TableColumn prefWidth="75.0" text="Date" />
+            <TableColumn prefWidth="75.0" text="# of stops" />
+            <TableColumn prefWidth="75.0" text="Type" />
+            <TableColumn prefWidth="75.0" text="Vehicle" />
+        </columns>
+      </TableView>
+      <Button fx:id="logoutButton" layoutX="34.0" layoutY="44.0" mnemonicParsing="false" onAction="#logoutButtonPressed" prefHeight="38.0" prefWidth="82.0" text="Logout" />
    </children>
-</AnchorPane>
+</Pane>
