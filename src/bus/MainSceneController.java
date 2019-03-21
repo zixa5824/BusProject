@@ -15,6 +15,7 @@ public class MainSceneController {
     static Stage stage;
     String username,password;
     Account account = new Account();
+    Scene scene;
 
     @FXML RadioButton clientButton;
     @FXML RadioButton driverButton;
@@ -23,10 +24,22 @@ public class MainSceneController {
     @FXML PasswordField passwordField;
     @FXML Button loginButton;
 
+    public void prepare() {
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        scene = new Scene(root, 788, 530);
+    }
+
     public void loginButtonPressed(){
-        username=usernameField.getText();
-        password=passwordField.getText();
+
+        username = usernameField.getText();
+        password = passwordField.getText();
         account = new Account();
+
         if(clientButton.isSelected()) {
             if(account.checkAccount(username,password,"client")) {
                 System.out.println("Welcome Client");
@@ -34,18 +47,9 @@ public class MainSceneController {
         }
         else if(driverButton.isSelected()) {
             if(account.checkAccount(username,password,"driver")) {
-                Parent root = null;
-
-
-                try {
-                    root = FXMLLoader.load(getClass().getResource("DriverScene.fxml"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-
-                Scene driverScene = new Scene(root, 788, 530);
-                stage.setScene(driverScene);
+                DriverSceneController driverSceneController = new DriverSceneController();
+                driverSceneController.prepare();
+                stage.setScene(driverSceneController.getScene());
                 System.out.println("Welcome Driver");
             }
         }
@@ -54,6 +58,10 @@ public class MainSceneController {
                 System.out.println("Welcome Manager");
             }
         }
+    }
+
+    public Scene getScene() {
+        return scene;
     }
 
 }
