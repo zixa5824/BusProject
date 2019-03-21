@@ -13,15 +13,15 @@ public class DriverSceneController {
 
     public void prepare() {
         // Loading the FXML file and setting its scene
-        Parent root2 = null;
+        Parent root = null;
 
         try {
-            root2 = FXMLLoader.load(getClass().getResource("DriverScene.fxml"));
+            root = FXMLLoader.load(getClass().getResource("DriverScene.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        scene = new Scene(root2, 788, 530);
+        scene = new Scene(root, 788, 530);
     }
 
     public Scene getScene() {
