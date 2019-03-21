@@ -11,7 +11,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        // Setting scene's class stages they are static
+        // Setting class stages they are static
 
         MainSceneController.stage = primaryStage;
         DriverSceneController.stage = primaryStage;

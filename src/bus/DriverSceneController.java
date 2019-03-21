@@ -12,6 +12,7 @@ public class DriverSceneController {
     Scene scene;
 
     public void prepare() {
+        // Loading the FXML file and setting its scene
         Parent root2 = null;
 
         try {

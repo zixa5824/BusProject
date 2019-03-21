@@ -25,6 +25,7 @@ public class MainSceneController {
     @FXML Button loginButton;
 
     public void prepare() {
+        // Loading the FXML file and setting its scene
         Parent root = null;
         try {
             root = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
