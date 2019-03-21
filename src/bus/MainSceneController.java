@@ -13,9 +13,9 @@ import java.io.IOException;
 public class MainSceneController {
 
     static Stage stage;
-    String username,password;
-    Account account = new Account();
-    Scene scene;
+    private String username,password;
+    private Account account;
+    private Scene scene;
 
     @FXML RadioButton clientButton;
     @FXML RadioButton driverButton;
@@ -25,7 +25,7 @@ public class MainSceneController {
     @FXML Button loginButton;
 
     public void prepare() {
-        // Loading the FXML file and setting its scene
+        // Loading the FXML file and creating its scene
         Parent root = null;
         try {
             root = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
@@ -37,8 +37,8 @@ public class MainSceneController {
 
     public void loginButtonPressed(){
 
-        username = usernameField.getText();
-        password = passwordField.getText();
+        username = usernameField.getText().toLowerCase();
+        password = passwordField.getText().toLowerCase();
         account = new Account();
 
         if(clientButton.isSelected()) {
@@ -48,10 +48,13 @@ public class MainSceneController {
         }
         else if(driverButton.isSelected()) {
             if(account.checkAccount(username,password,"driver")) {
+                // Account is correct then make driver scene class and give it the logic account and set stage scene
                 DriverSceneController driverSceneController = new DriverSceneController();
-                driverSceneController.prepare();
+                driverSceneController.prepare(); // To load FXML file and create the scene
+                driverSceneController.setAccount(account);
                 stage.setScene(driverSceneController.getScene());
                 System.out.println("Welcome Driver");
+                // ------------------------------------------------------------------------------
             }
         }
         else if(managerButton.isSelected()) {
@@ -65,4 +68,7 @@ public class MainSceneController {
         return scene;
     }
 
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 }

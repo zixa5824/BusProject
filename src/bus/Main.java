@@ -24,6 +24,10 @@ public class Main extends Application {
         primaryStage.setScene(mainSceneController.getScene());
 
         // -------------------------------------------------------------------
+        // Initializing logic class Account and give it to main scene class
+        Account account = new Account();
+        mainSceneController.setAccount(account);
+        // ---------------------------------
         primaryStage.setTitle("Bus Station");
 
         primaryStage.setResizable(false);

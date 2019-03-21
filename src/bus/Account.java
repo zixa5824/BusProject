@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 public class Account {
     String next;
+    String firstName,lastName;
     Alert alert;
     FileReader fileReader;
     Scanner actualFileScanner = null;
@@ -27,6 +28,9 @@ public class Account {
                     if(next.equals(password)){
                         next = actualFileScanner.next();
                         if(next.equals(type)) {
+                         // Save the user's first name and last name in class variables
+                            firstName = actualFileScanner.next();
+                            lastName = actualFileScanner.next();
                             return true;
                         }
                         else {
@@ -53,5 +57,13 @@ public class Account {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 }

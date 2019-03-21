@@ -1,18 +1,23 @@
 package bus;
 
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class DriverSceneController {
     static Stage stage;
-    Scene scene;
+    private Account account;
+    private Scene scene;
+
+    @FXML Label nameLabel;
 
     public void prepare() {
-        // Loading the FXML file and setting its scene
+        // Loading the FXML file and creating its scene
         Parent root = null;
 
         try {
@@ -26,5 +31,9 @@ public class DriverSceneController {
 
     public Scene getScene() {
         return scene;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }
