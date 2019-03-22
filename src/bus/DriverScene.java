@@ -9,7 +9,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
 import java.util.ArrayList;
 
 public class DriverScene {
@@ -24,7 +23,10 @@ public class DriverScene {
         scene = new Scene(pane, 788, 529);
         // To read the driver's assigned trips
         Trips trip = new Trips();
-        ArrayList tripInfo = trip.getDriverTrips(account.getFirstName());
+        ArrayList<String> tripInfo = trip.getDriverTrips(account.getFirstName());
+        for (String val : tripInfo) {
+            System.out.println(val);
+        }
         Font font = new Font(16);
 
         Label welcomeLabel = new Label("Welcome Driver");
@@ -80,7 +82,6 @@ public class DriverScene {
         actualVehicleLabel.setAlignment(Pos.CENTER);
         actualVehicleLabel.setFont(font);
 
-
         TableColumn driverColumn = new TableColumn("Driver");
         TableColumn sourceColumn = new TableColumn("Source");
         TableColumn destinationColumn = new TableColumn("Destination");
@@ -95,6 +96,8 @@ public class DriverScene {
         tripsTable.setPrefHeight(153);
         tripsTable.setLayoutX(75);
         tripsTable.setLayoutY(310);
+        tripsTable.setEditable(false);
+        tripsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tripsTable.getColumns().addAll(driverColumn, sourceColumn, destinationColumn, departTimeColumn, dateColumn);
         tripsTable.getColumns().addAll(stopsColumn, typeColumn, vehicleColumn);
 
