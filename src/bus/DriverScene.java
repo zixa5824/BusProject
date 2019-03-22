@@ -1,6 +1,5 @@
 package bus;
 
-import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -25,6 +24,7 @@ public class DriverScene {
         scene = new Scene(pane, 788, 529);
         // To read the driver's assigned trips
         Trips trip = new Trips();
+        ArrayList tripInfo = trip.getDriverTrips(account.getFirstName());
         Font font = new Font(16);
 
         Label welcomeLabel = new Label("Welcome Driver");
@@ -81,7 +81,7 @@ public class DriverScene {
         actualVehicleLabel.setFont(font);
 
 
-        TableColumn numberColumn = new TableColumn("Driver");
+        TableColumn driverColumn = new TableColumn("Driver");
         TableColumn sourceColumn = new TableColumn("Source");
         TableColumn destinationColumn = new TableColumn("Destination");
         TableColumn departTimeColumn = new TableColumn("Depart Time");
@@ -95,9 +95,9 @@ public class DriverScene {
         tripsTable.setPrefHeight(153);
         tripsTable.setLayoutX(75);
         tripsTable.setLayoutY(310);
-        tripsTable.getColumns().addAll(numberColumn, sourceColumn, destinationColumn, departTimeColumn, dateColumn);
+        tripsTable.getColumns().addAll(driverColumn, sourceColumn, destinationColumn, departTimeColumn, dateColumn);
         tripsTable.getColumns().addAll(stopsColumn, typeColumn, vehicleColumn);
-        tripsTable.setItems(trip.getDriverTrips(account.firstName));
+
 
         Button logoutButton = new Button("Logout");
         logoutButton.setPrefWidth(82);

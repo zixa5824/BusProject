@@ -8,11 +8,11 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Account {
-    String next;
-    String firstName, lastName;
-    Alert alert;
-    FileReader fileReader;
-    Scanner actualFileScanner = null;
+    private String next;
+    private String firstName, lastName;
+    private Alert alert;
+    private FileReader fileReader;
+    private Scanner actualFileScanner = null;
 
     public boolean checkAccount(String username, String password, String type) {
         alert = new Alert(Alert.AlertType.ERROR);

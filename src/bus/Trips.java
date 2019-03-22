@@ -12,29 +12,21 @@ import java.util.Scanner;
 public class Trips {
 
     // This method finds driver's assigned trips and returns it to his table of trips
-    public ObservableList<String> getDriverTrips(String firstName) {
+    public ArrayList<String> getDriverTrips(String firstName) {
 
         FileReader fileReader = null;
         try {
             fileReader = new FileReader("src//trips.txt");
             Scanner actualFileScanner = new Scanner(fileReader);
-            String driver, source, destination, departTime, date, numberOfStops, type, vehicle;
-            ObservableList<String> tripDetails = FXCollections.observableArrayList();
+            ArrayList<String> tripDetails = new ArrayList<>();
 
             while (actualFileScanner.hasNext()) {
                 String next = actualFileScanner.next();
                 if (next.equals(firstName)) {
-
-                    driver = next;
-                    source = actualFileScanner.next();
-                    destination = actualFileScanner.next();
-                    departTime = actualFileScanner.next();
-                    date = actualFileScanner.next();
-                    numberOfStops = actualFileScanner.next();
-                    type = actualFileScanner.next();
-                    vehicle = actualFileScanner.next();
-
-                    tripDetails.add(driver);
+                    tripDetails.add(next);
+                    for (int i = 0; i < 6; i++) {
+                        tripDetails.add(actualFileScanner.next());
+                    }
                 }
             }
             fileReader.close();
