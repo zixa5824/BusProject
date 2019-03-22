@@ -75,7 +75,7 @@ public class DriverScene {
         actualVehicleLabel.setAlignment(Pos.CENTER);
         actualVehicleLabel.setFont(font);
 
-        TableColumn numberColumn = new TableColumn("#");
+        TableColumn numberColumn = new TableColumn("Driver");
         TableColumn sourceColumn = new TableColumn("Source");
         TableColumn destinationColumn = new TableColumn("Destination");
         TableColumn departTimeColumn = new TableColumn("Depart Time");
