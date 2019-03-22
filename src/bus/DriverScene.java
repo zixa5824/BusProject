@@ -1,5 +1,6 @@
 package bus;
 
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,6 +11,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class DriverScene {
 
     private Scene scene;
@@ -17,9 +20,11 @@ public class DriverScene {
 
 
     DriverScene(Stage stage, Account account) {
-    // Drawing the Scene -----------------------------------------------------------------------------------------------
+        // Drawing the Scene -------------------------------------------------------------------------------------------
         Pane pane = new Pane();
-        scene = new Scene(pane,788,529);
+        scene = new Scene(pane, 788, 529);
+        // To read the driver's assigned trips
+        Trips trip = new Trips();
         Font font = new Font(16);
 
         Label welcomeLabel = new Label("Welcome Driver");
@@ -37,7 +42,7 @@ public class DriverScene {
         namePlaceLabel.setLayoutY(103);
         namePlaceLabel.setFont(font);
 
-        Label actualNameLabel = new Label(account.getFirstName()+" "+account.getLastName());
+        Label actualNameLabel = new Label(account.getFirstName() + " " + account.getLastName());
         actualNameLabel.setPrefWidth(165);
         actualNameLabel.setPrefHeight(30);
         actualNameLabel.setLayoutX(319);
@@ -75,6 +80,7 @@ public class DriverScene {
         actualVehicleLabel.setAlignment(Pos.CENTER);
         actualVehicleLabel.setFont(font);
 
+
         TableColumn numberColumn = new TableColumn("Driver");
         TableColumn sourceColumn = new TableColumn("Source");
         TableColumn destinationColumn = new TableColumn("Destination");
@@ -89,8 +95,9 @@ public class DriverScene {
         tripsTable.setPrefHeight(153);
         tripsTable.setLayoutX(75);
         tripsTable.setLayoutY(310);
-        tripsTable.getColumns().addAll(numberColumn,sourceColumn,destinationColumn,departTimeColumn,dateColumn);
-        tripsTable.getColumns().addAll(stopsColumn,typeColumn,vehicleColumn);
+        tripsTable.getColumns().addAll(numberColumn, sourceColumn, destinationColumn, departTimeColumn, dateColumn);
+        tripsTable.getColumns().addAll(stopsColumn, typeColumn, vehicleColumn);
+        tripsTable.setItems(trip.getDriverTrips(account.firstName));
 
         Button logoutButton = new Button("Logout");
         logoutButton.setPrefWidth(82);
@@ -98,20 +105,21 @@ public class DriverScene {
         logoutButton.setLayoutX(34);
         logoutButton.setLayoutY(44);
 
-        pane.getChildren().addAll(welcomeLabel,namePlaceLabel,actualNameLabel,salaryPlaceLabel,actualSalaryLabel);
-        pane.getChildren().addAll(vehiclePlaceLabel,actualVehicleLabel,tripsTable,logoutButton);
-    // End of drawing scene --------------------------------------------------------------------------------------------
+        pane.getChildren().addAll(welcomeLabel, namePlaceLabel, actualNameLabel, salaryPlaceLabel, actualSalaryLabel);
+        pane.getChildren().addAll(vehiclePlaceLabel, actualVehicleLabel, tripsTable, logoutButton);
+        // End of drawing scene ----------------------------------------------------------------------------------------
 
-    // Events Section --------------------------------------------------------------------------------------------------
+        // Events Section ----------------------------------------------------------------------------------------------
 
-    // Logout Button Event ---------------------------------------------------------------------------------------------
-        logoutButton.setOnAction (e-> {
-        stage.setScene(homeScene);
+        // Logout Button Event -----------------------------------------------------------------------------------------
+        logoutButton.setOnAction(e -> {
+            stage.setScene(homeScene);
         });
-    // End of logout event----------------------------------------------------------------------------------------------
+        // End of logout event------------------------------------------------------------------------------------------
 
-    // End of events ---------------------------------------------------------------------------------------------------
+        // End of events -----------------------------------------------------------------------------------------------
     }
+
     public Scene getScene() {
         return scene;
     }

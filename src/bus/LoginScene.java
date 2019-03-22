@@ -13,14 +13,14 @@ import static javafx.scene.paint.Color.WHITE;
 
 public class LoginScene {
 
-    private String username,password;
+    private String username, password;
     private Scene scene;
 
     LoginScene(Stage stage, Account account) {
 
-    // Drawing the Scene -----------------------------------------------------------------------------------------------
+        // Drawing the Scene -----------------------------------------------------------------------------------------------
         Pane pane = new Pane();
-        scene = new Scene(pane,788,529);
+        scene = new Scene(pane, 788, 529);
 
         // Font for the labels
         Font font = new Font(14);
@@ -86,14 +86,14 @@ public class LoginScene {
         managerButton.setToggleGroup(radioGroup);
         managerButton.setFont(font);
 
-        pane.getChildren().addAll(backgroundView,ellipse,usernameLabel,passwordLabel,usernameField,passwordField);
-        pane.getChildren().addAll(loginButton,clientButton,driverButton,managerButton);
+        pane.getChildren().addAll(backgroundView, ellipse, usernameLabel, passwordLabel, usernameField, passwordField);
+        pane.getChildren().addAll(loginButton, clientButton, driverButton, managerButton);
 
-    // -----------------------------------------------------------------------------------------------------------------
+        // -------------------------------------------------------------------------------------------------------------
 
-    // Events Section --------------------------------------------------------------------------------------------------
-    // Login Button Event ----------------------------------------------------------------------------------------------
-        loginButton.setOnAction(e-> {
+        // Events Section ----------------------------------------------------------------------------------------------
+        // Login Button Event ------------------------------------------------------------------------------------------
+        loginButton.setOnAction(e -> {
 
             username = usernameField.getText().toLowerCase();
             password = passwordField.getText().toLowerCase();
@@ -105,7 +105,7 @@ public class LoginScene {
             } else if (driverButton.isSelected()) {
                 if (account.checkAccount(username, password, "driver")) {
                     // Account is correct then make driver scene class and give it the stage and logic account
-                    DriverScene driverScene = new DriverScene(stage,account);
+                    DriverScene driverScene = new DriverScene(stage, account);
                     driverScene.setHomeScene(this.scene);
                     stage.setScene(driverScene.getScene());
                     System.out.println("Welcome Driver");
@@ -120,9 +120,9 @@ public class LoginScene {
                 }
             }
         });
-    // End of Login Button Event ---------------------------------------------------------------------------------------
+        // End of Login Button Event -----------------------------------------------------------------------------------
 
-    // End of events ---------------------------------------------------------------------------------------------------
+        // End of events -----------------------------------------------------------------------------------------------
     }
 
     public Scene getScene() {
