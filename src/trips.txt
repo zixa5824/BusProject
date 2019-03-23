@@ -7,6 +7,3 @@ Yahia Alexandria Hurghada 6:00 3/27/2019 1 Internal Bus
 Yahia Alexandria Aswan 20:00 4/1/2019 5 Internal Bus
 Yahia Alexandria Tanta 6:00 4/6/2019 1 Internal Bus
 Yahia Alexandria Sudan 6:00 4/10/2019 2 External Bus
-
-
-
