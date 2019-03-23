@@ -3,5 +3,6 @@ username password profession first_name last_name
 sharshera 1234 client Mahmoud Essam
 yahia 123 driver Yahia Ashraf
 ahmed 123 driver Ahmed Mohamed
+mohamed 123 driver Mohamed Mohamed
 hamada 12345 manager Hamada Hamada
 
