@@ -1,5 +1,7 @@
 package bus;
 
+import java.util.ArrayList;
+
 public interface AdminActions {
     /**
      * @return list of vehicles (3 types at least)
@@ -9,7 +11,7 @@ public interface AdminActions {
     /**
      * @return list of trips
      */
-//    public ArrayList<Trip> listTrips();
+//    public ArrayList<Trips> listTrips();
 
     /**
      * @return list of drivers
@@ -24,7 +26,7 @@ public interface AdminActions {
     /**
      * @param list * save list of trips
      */
-//    public void saveTrips(ArrayList<Trip> list);
+//    public void saveTrips(ArrayList<Trips> list);
 
     /**
      * @param list * save list of drivers

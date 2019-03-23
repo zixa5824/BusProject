@@ -24,7 +24,7 @@ public class Trips {
                 String next = actualFileScanner.next();
                 if (next.equals(firstName)) {
                     tripDetails.add(next);
-                    for (int i = 0; i < 6; i++) {
+                    for (int i = 1; i < 8; i++) {
                         tripDetails.add(actualFileScanner.next());
                     }
                 }

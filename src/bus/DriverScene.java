@@ -1,5 +1,6 @@
 package bus;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -9,6 +10,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
 import java.util.ArrayList;
 
 public class DriverScene {
@@ -24,8 +26,14 @@ public class DriverScene {
         // To read the driver's assigned trips
         Trips trip = new Trips();
         ArrayList<String> tripInfo = trip.getDriverTrips(account.getFirstName());
-        for (String val : tripInfo) {
-            System.out.println(val);
+        int rows = tripInfo.size() / 7;
+        int index = 0;
+        // Add the trips info into 2d array
+        String[][] tripArray = new String[rows][8];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < 8; j++) {
+                tripArray[i][j] = tripInfo.get(index++);
+            }
         }
         Font font = new Font(16);
 
@@ -82,14 +90,45 @@ public class DriverScene {
         actualVehicleLabel.setAlignment(Pos.CENTER);
         actualVehicleLabel.setFont(font);
 
-        TableColumn driverColumn = new TableColumn("Driver");
-        TableColumn sourceColumn = new TableColumn("Source");
-        TableColumn destinationColumn = new TableColumn("Destination");
-        TableColumn departTimeColumn = new TableColumn("Depart Time");
-        TableColumn dateColumn = new TableColumn("Date");
-        TableColumn stopsColumn = new TableColumn("# of stops");
-        TableColumn typeColumn = new TableColumn("Type");
-        TableColumn vehicleColumn = new TableColumn("Vehicle");
+        TableColumn<String[], String> driverColumn = new TableColumn("Driver");
+        driverColumn.setCellValueFactory(param -> {
+            return new SimpleStringProperty(param.getValue()[0]);
+        });
+
+        TableColumn<String[], String> sourceColumn = new TableColumn("Source");
+        sourceColumn.setCellValueFactory(param -> {
+            return new SimpleStringProperty(param.getValue()[1]);
+        });
+
+        TableColumn<String[], String> destinationColumn = new TableColumn("Destination");
+        destinationColumn.setCellValueFactory(param -> {
+            return new SimpleStringProperty(param.getValue()[2]);
+        });
+
+        TableColumn<String[], String> departTimeColumn = new TableColumn("Depart Time");
+        departTimeColumn.setCellValueFactory(param -> {
+            return new SimpleStringProperty(param.getValue()[3]);
+        });
+
+        TableColumn<String[], String> dateColumn = new TableColumn("Date");
+        dateColumn.setCellValueFactory(param -> {
+            return new SimpleStringProperty(param.getValue()[4]);
+        });
+
+        TableColumn<String[], String> stopsColumn = new TableColumn("# of stops");
+        stopsColumn.setCellValueFactory(param -> {
+            return new SimpleStringProperty(param.getValue()[5]);
+        });
+
+        TableColumn<String[], String> typeColumn = new TableColumn("Type");
+        typeColumn.setCellValueFactory(param -> {
+            return new SimpleStringProperty(param.getValue()[6]);
+        });
+
+        TableColumn<String[], String> vehicleColumn = new TableColumn("Vehicle");
+        vehicleColumn.setCellValueFactory(param -> {
+            return new SimpleStringProperty(param.getValue()[7]);
+        });
 
         TableView tripsTable = new TableView();
         tripsTable.setPrefWidth(640);
@@ -97,6 +136,9 @@ public class DriverScene {
         tripsTable.setLayoutX(75);
         tripsTable.setLayoutY(310);
         tripsTable.setEditable(false);
+        for (int i = 0; i < rows; i++) {
+            tripsTable.getItems().add(tripArray[i]);
+        }
         tripsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tripsTable.getColumns().addAll(driverColumn, sourceColumn, destinationColumn, departTimeColumn, dateColumn);
         tripsTable.getColumns().addAll(stopsColumn, typeColumn, vehicleColumn);
