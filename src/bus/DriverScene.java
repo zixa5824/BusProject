@@ -25,7 +25,7 @@ public class DriverScene {
         scene = new Scene(pane, 788, 529);
         // To read the driver's assigned trips
         Trips trip = new Trips();
-        ArrayList<String> tripInfo = trip.getDriverTrips(account.getFirstName());
+        ArrayList<String> tripInfo = trip.getDriverTrips(account);
         int rows = tripInfo.size() / 8;
         int index = 0;
         // Add the trips info into 2d array

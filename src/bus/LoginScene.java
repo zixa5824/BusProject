@@ -116,7 +116,15 @@ public class LoginScene {
                 }
             } else if (managerButton.isSelected()) {
                 if (account.checkAccount(username, password, "manager")) {
+                    // Account is correct then make manager scene class and give it the stage and logic account
+                    ManagerScene managerScene= new ManagerScene(stage, account);
+                    managerScene.setHomeScene(this.scene);
+                    stage.setScene(managerScene.getScene());
                     System.out.println("Welcome Manager");
+                    // Clear the text fields after the user has logged in
+                    usernameField.setText("");
+                    passwordField.setText("");
+                    // ------------------------------------------------------------------------------
                 }
             }
         });
