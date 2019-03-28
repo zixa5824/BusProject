@@ -1,13 +1,14 @@
 package bus;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -28,7 +29,7 @@ public class ManagerScene {
         scene = new Scene(mainPane, 788, 529);
 
         Rectangle sideRect = new Rectangle(0, 0, 163, 529);
-        sideRect.setFill(Color.rgb(31, 171, 194));
+        sideRect.setFill(Color.BLACK);
 
         Font font = new Font(16);
 
@@ -133,24 +134,46 @@ public class ManagerScene {
         infoButton.setLayoutY(95);
         infoButton.setPrefWidth(163);
         infoButton.setPrefHeight(46);
+        infoButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 
         Button createTripButton = new Button("Create Trip");
         createTripButton.setLayoutX(0);
         createTripButton.setLayoutY(242);
         createTripButton.setPrefWidth(163);
         createTripButton.setPrefHeight(46);
+        createTripButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+
 
         Button viewTripsButton = new Button("View All Trips");
         viewTripsButton.setLayoutX(0);
         viewTripsButton.setLayoutY(400);
         viewTripsButton.setPrefWidth(163);
         viewTripsButton.setPrefHeight(46);
+        viewTripsButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+
 
         mainPane.getChildren().addAll(generalPane, sideRect, infoButton, createTripButton, viewTripsButton);
         // End of drawing scene ----------------------------------------------------------------------------------------
 
         // Events Section ----------------------------------------------------------------------------------------------
+        infoButton.setOnAction(event -> {
+            generalPane.toFront();
+            infoButton.setBackground(new Background(new BackgroundFill(Color.PALEGOLDENROD, CornerRadii.EMPTY, Insets.EMPTY)));
+            createTripButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+            viewTripsButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        });
 
+        createTripButton.setOnAction(event -> {
+            infoButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+            createTripButton.setBackground(new Background(new BackgroundFill(Color.PALEGOLDENROD, CornerRadii.EMPTY, Insets.EMPTY)));
+            viewTripsButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        });
+
+        viewTripsButton.setOnAction(event -> {
+            infoButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+            createTripButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+            viewTripsButton.setBackground(new Background(new BackgroundFill(Color.PALEGOLDENROD, CornerRadii.EMPTY, Insets.EMPTY)));
+        });
         // End of events -----------------------------------------------------------------------------------------------
     }
 
