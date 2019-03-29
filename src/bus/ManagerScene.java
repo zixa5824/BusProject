@@ -25,7 +25,6 @@ public class ManagerScene {
     ManagerScene(Stage stage, Account account) {
         // Drawing the Scene -------------------------------------------------------------------------------------------
         Pane mainPane = new Pane();
-        Pane generalPane = new Pane();
         scene = new Scene(mainPane, 788, 529);
 
         Rectangle sideRect = new Rectangle(0, 0, 163, 529);
@@ -33,11 +32,12 @@ public class ManagerScene {
 
         Font font = new Font(16);
 
-        // Contents of genera info pane
-        generalPane.setLayoutX(163);
-        generalPane.setLayoutY(0);
-        generalPane.setPrefWidth(625);
-        generalPane.setPrefHeight(529);
+        // Contents of info pane ---------------------------------------------------------------------------------------
+        Pane infoPane = new Pane();
+        infoPane.setLayoutX(163);
+        infoPane.setLayoutY(0);
+        infoPane.setPrefWidth(625);
+        infoPane.setPrefHeight(529);
 
         Label welcomeLabel = new Label("Welcome Manager");
         welcomeLabel.setAlignment(Pos.CENTER);
@@ -55,27 +55,6 @@ public class ManagerScene {
         nameLabel.setLayoutY(112);
         nameLabel.setPrefWidth(157);
         nameLabel.setPrefHeight(38);
-
-        ArrayList<String> driverNumbersList = account.driversNumbers();
-        ArrayList<String> driverList = account.driversList();
-        int listIndex = 0;
-        int listRows = driverNumbersList.size() / 2;
-        int driverListRows = driverList.size() / 2;
-        String[][] driversNumbersArray = new String[listRows][2];
-        String[][] driversListArray = new String[driverListRows][2];
-
-        for (int i = 0; i < listRows; i++) {
-            for (int j = 0; j < 2; j++) {
-                driversNumbersArray[i][j] = driverNumbersList.get(listIndex++);
-            }
-        }
-
-        listIndex = 0;
-        for (int i = 0; i < driverListRows; i++) {
-            for (int j = 0; j < 2; j++) {
-                driversListArray[i][j] = driverList.get(listIndex++);
-            }
-        }
 
         // First Table
 
@@ -97,9 +76,7 @@ public class ManagerScene {
         vehiclesTable.setEditable(false);
         vehiclesTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         vehiclesTable.getColumns().addAll(vehiclesColumn, numberOfDriversColumn);
-        for (int i = 0; i < listRows; i++) {
-            vehiclesTable.getItems().add(driversNumbersArray[i]);
-        }
+
 
         // Second Table
 
@@ -123,10 +100,39 @@ public class ManagerScene {
         driversTable.setEditable(false);
         driversTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         driversTable.getColumns().addAll(driversColumn, vehicleColumn);
-        for (int i = 0; i < driverListRows; i++) {
-            driversTable.getItems().add(driversListArray[i]);
-        }
-        generalPane.getChildren().addAll(welcomeLabel, nameLabel, vehiclesTable, driversTable);
+
+        fillTables(account,vehiclesTable,driversTable);
+        infoPane.getChildren().addAll(welcomeLabel, nameLabel, vehiclesTable, driversTable);
+        // -------------------------------------------------------------------------------------------------------------
+
+        // Contents of create trip pane --------------------------------------------------------------------------------
+        Pane createTripPane = new Pane();
+        createTripPane.setLayoutX(163);
+        createTripPane.setLayoutY(0);
+        createTripPane.setPrefWidth(625);
+        createTripPane.setPrefHeight(529);
+
+        Label testLabel = new Label("TEST");
+        testLabel.setAlignment(Pos.CENTER);
+        testLabel.setFont(font);
+        testLabel.setLayoutX(234);
+        testLabel.setLayoutY(56);
+        testLabel.setPrefWidth(157);
+        testLabel.setPrefHeight(38);
+
+        Button testBut = new Button("Test");
+        createTripPane.getChildren().addAll(testBut,testLabel);
+        createTripPane.setVisible(false);
+
+        // -------------------------------------------------------------------------------------------------------------
+
+        // Contents of view trips pane ---------------------------------------------------------------------------------
+        Pane viewTripsPane = new Pane();
+        viewTripsPane.setLayoutX(163);
+        viewTripsPane.setLayoutY(0);
+        viewTripsPane.setPrefWidth(625);
+        viewTripsPane.setPrefHeight(529);
+        viewTripsPane.setVisible(false);
         // -------------------------------------------------------------------------------------------------------------
 
         Button infoButton = new Button("General Info");
@@ -134,7 +140,7 @@ public class ManagerScene {
         infoButton.setLayoutY(95);
         infoButton.setPrefWidth(163);
         infoButton.setPrefHeight(46);
-        infoButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+        infoButton.setBackground(new Background(new BackgroundFill(Color.PALEGOLDENROD, CornerRadii.EMPTY, Insets.EMPTY)));
 
         Button createTripButton = new Button("Create Trip");
         createTripButton.setLayoutX(0);
@@ -151,25 +157,32 @@ public class ManagerScene {
         viewTripsButton.setPrefHeight(46);
         viewTripsButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 
-
-        mainPane.getChildren().addAll(generalPane, sideRect, infoButton, createTripButton, viewTripsButton);
+        mainPane.getChildren().addAll(infoPane, viewTripsPane, createTripPane, sideRect, infoButton, createTripButton, viewTripsButton);
         // End of drawing scene ----------------------------------------------------------------------------------------
 
         // Events Section ----------------------------------------------------------------------------------------------
         infoButton.setOnAction(event -> {
-            generalPane.toFront();
+            infoPane.setVisible(true);
+            createTripPane.setVisible(false);
+            viewTripsPane.setVisible(false);
             infoButton.setBackground(new Background(new BackgroundFill(Color.PALEGOLDENROD, CornerRadii.EMPTY, Insets.EMPTY)));
             createTripButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
             viewTripsButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         });
 
         createTripButton.setOnAction(event -> {
+            infoPane.setVisible(false);
+            createTripPane.setVisible(true);
+            viewTripsPane.setVisible(false);
             infoButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
             createTripButton.setBackground(new Background(new BackgroundFill(Color.PALEGOLDENROD, CornerRadii.EMPTY, Insets.EMPTY)));
             viewTripsButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         });
 
         viewTripsButton.setOnAction(event -> {
+            infoPane.setVisible(false);
+            createTripPane.setVisible(false);
+            viewTripsPane.setVisible(true);
             infoButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
             createTripButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
             viewTripsButton.setBackground(new Background(new BackgroundFill(Color.PALEGOLDENROD, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -179,6 +192,37 @@ public class ManagerScene {
 
     public Scene getScene() {
         return scene;
+    }
+
+    public void fillTables(Account account, TableView vehiclesTable, TableView driversTable){
+        ArrayList<String> driverNumbersList = account.driversNumbers();
+        ArrayList<String> driverList = account.driversList();
+        int listIndex = 0;
+        int listRows = driverNumbersList.size() / 2;
+        int driverListRows = driverList.size() / 2;
+        String[][] driversNumbersArray = new String[listRows][2];
+        String[][] driversListArray = new String[driverListRows][2];
+
+        for (int i = 0; i < listRows; i++) {
+            for (int j = 0; j < 2; j++) {
+                driversNumbersArray[i][j] = driverNumbersList.get(listIndex++);
+            }
+        }
+
+        listIndex = 0;
+        for (int i = 0; i < driverListRows; i++) {
+            for (int j = 0; j < 2; j++) {
+                driversListArray[i][j] = driverList.get(listIndex++);
+            }
+        }
+
+        for (int i = 0; i < listRows; i++) {
+            vehiclesTable.getItems().add(driversNumbersArray[i]);
+        }
+
+        for (int i = 0; i < driverListRows; i++) {
+            driversTable.getItems().add(driversListArray[i]);
+        }
     }
 
     public void setHomeScene(Scene homeScene) {
