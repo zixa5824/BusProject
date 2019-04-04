@@ -14,6 +14,16 @@ public class Account {
     private FileReader fileReader;
     private Scanner actualFileScanner = null;
 
+    public Account(String accountID, String firstName, String lastName) {
+        this.accountID = accountID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    Account(){
+
+    }
+
     // Validate username and password (Used in login scene)
     public boolean checkAccount(String username, String password, String type) {
         alert = new Alert(Alert.AlertType.ERROR);
@@ -67,7 +77,7 @@ public class Account {
     }
     // -----------------------------------------------------------------------------------------------------------------
 
-    // Method returns a list of drivers
+    // Method returns a list of drivers (Used in manager scene)
     ArrayList<String> driversList() {
         String next;
         String name;

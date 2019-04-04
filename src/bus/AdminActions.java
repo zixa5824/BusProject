@@ -16,7 +16,7 @@ public interface AdminActions {
     /**
      * @return list of drivers
      */
-//    public ArrayList<Person> listPersons();
+    public ArrayList<Account> listDrivers();
 
     /**
      * @param list * save list of vehicles
@@ -26,7 +26,7 @@ public interface AdminActions {
     /**
      * @param list * save list of trips
      */
-//    public void saveTrips(ArrayList<Trips> list);
+    public void saveTrip(ArrayList<Trips> list);
 
     /**
      * @param list * save list of drivers

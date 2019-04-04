@@ -1,13 +1,12 @@
 package bus;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -25,10 +24,17 @@ public class ManagerScene {
     ManagerScene(Stage stage, Account account) {
         // Drawing the Scene -------------------------------------------------------------------------------------------
         Pane mainPane = new Pane();
+        Admin admin = new Admin();
         scene = new Scene(mainPane, 788, 529);
 
         Rectangle sideRect = new Rectangle(0, 0, 163, 529);
         sideRect.setFill(Color.BLACK);
+
+        Button logoutButton = new Button("Logout");
+        logoutButton.setLayoutX(39);
+        logoutButton.setLayoutY(14);
+        logoutButton.setPrefWidth(85);
+        logoutButton.setPrefHeight(46);
 
         Font font = new Font(16);
 
@@ -101,7 +107,7 @@ public class ManagerScene {
         driversTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         driversTable.getColumns().addAll(driversColumn, vehicleColumn);
 
-        fillTables(account,vehiclesTable,driversTable);
+        fillTables(account, vehiclesTable, driversTable);
         infoPane.getChildren().addAll(welcomeLabel, nameLabel, vehiclesTable, driversTable);
         // -------------------------------------------------------------------------------------------------------------
 
@@ -111,18 +117,120 @@ public class ManagerScene {
         createTripPane.setLayoutY(0);
         createTripPane.setPrefWidth(625);
         createTripPane.setPrefHeight(529);
-
-        Label testLabel = new Label("TEST");
-        testLabel.setAlignment(Pos.CENTER);
-        testLabel.setFont(font);
-        testLabel.setLayoutX(234);
-        testLabel.setLayoutY(56);
-        testLabel.setPrefWidth(157);
-        testLabel.setPrefHeight(38);
-
-        Button testBut = new Button("Test");
-        createTripPane.getChildren().addAll(testBut,testLabel);
         createTripPane.setVisible(false);
+
+        Label headLabel = new Label("Creating Trip");
+        headLabel.setFont(font);
+        headLabel.setPrefWidth(107);
+        headLabel.setPrefHeight(46);
+        headLabel.setLayoutX(259);
+        headLabel.setLayoutY(49);
+
+        Label sourceLabel = new Label("Source:");
+        sourceLabel.setFont(font);
+        sourceLabel.setPrefWidth(65);
+        sourceLabel.setPrefHeight(46);
+        sourceLabel.setLayoutX(14);
+        sourceLabel.setLayoutY(130);
+
+        Label timeLabel = new Label("Depart Time:");
+        timeLabel.setFont(font);
+        timeLabel.setPrefWidth(107);
+        timeLabel.setPrefHeight(46);
+        timeLabel.setLayoutX(14);
+        timeLabel.setLayoutY(216);
+
+        Label stopsLabel = new Label("Number of Stops:");
+        stopsLabel.setFont(font);
+        stopsLabel.setPrefWidth(139);
+        stopsLabel.setPrefHeight(46);
+        stopsLabel.setLayoutX(14);
+        stopsLabel.setLayoutY(308);
+
+        Label costLabel = new Label("Cost:");
+        costLabel.setFont(font);
+        costLabel.setPrefWidth(107);
+        costLabel.setPrefHeight(46);
+        costLabel.setLayoutX(14);
+        costLabel.setLayoutY(396);
+
+        Label destinationLabel = new Label("Destination:");
+        destinationLabel.setFont(font);
+        destinationLabel.setPrefWidth(107);
+        destinationLabel.setPrefHeight(46);
+        destinationLabel.setLayoutX(332);
+        destinationLabel.setLayoutY(130);
+
+        Label dateLabel = new Label("Date:");
+        dateLabel.setFont(font);
+        dateLabel.setPrefWidth(107);
+        dateLabel.setPrefHeight(46);
+        dateLabel.setLayoutX(332);
+        dateLabel.setLayoutY(216);
+
+        Label vehicleLabel = new Label("Vehicle:");
+        vehicleLabel.setFont(font);
+        vehicleLabel.setPrefWidth(107);
+        vehicleLabel.setPrefHeight(46);
+        vehicleLabel.setLayoutX(332);
+        vehicleLabel.setLayoutY(308);
+
+        Label driverLabel = new Label("Driver:");
+        driverLabel.setFont(font);
+        driverLabel.setPrefWidth(107);
+        driverLabel.setPrefHeight(46);
+        driverLabel.setLayoutX(332);
+        driverLabel.setLayoutY(396);
+
+        TextField sourceField = new TextField();
+        sourceField.setLayoutX(155);
+        sourceField.setLayoutY(141);
+
+        TextField timeField = new TextField();
+        timeField.setLayoutX(155);
+        timeField.setLayoutY(227);
+
+        TextField stopsField = new TextField();
+        stopsField.setLayoutX(155);
+        stopsField.setLayoutY(319);
+
+        TextField costField = new TextField();
+        costField.setLayoutX(155);
+        costField.setLayoutY(407);
+
+        TextField destinationField = new TextField();
+        destinationField.setLayoutX(431);
+        destinationField.setLayoutY(141);
+
+        DatePicker datePicker = new DatePicker();
+        datePicker.setLayoutX(431);
+        datePicker.setLayoutY(227);
+        datePicker.setPrefWidth(149);
+        datePicker.setPrefHeight(25);
+
+        ComboBox vehicleBox = new ComboBox();
+        vehicleBox.setLayoutX(431);
+        vehicleBox.setLayoutY(317);
+        vehicleBox.setPrefWidth(149);
+        vehicleBox.setPrefHeight(25);
+
+        ComboBox driverBox = new ComboBox();
+        driverBox.setLayoutX(431);
+        driverBox.setLayoutY(407);
+        driverBox.setPrefWidth(149);
+        driverBox.setPrefHeight(25);
+
+        Button saveButton = new Button("Save Trip");
+        saveButton.setLayoutX(431);
+        saveButton.setLayoutY(464);
+        saveButton.setPrefWidth(107);
+        saveButton.setPrefHeight(38);
+
+        createTripPane.getChildren().addAll(
+                headLabel, sourceLabel, timeLabel, stopsLabel, costLabel, destinationLabel, dateLabel, driverLabel,
+                sourceField, timeField, stopsField, costField, destinationField, datePicker, driverBox, saveButton,
+                vehicleBox, vehicleLabel
+        );
 
         // -------------------------------------------------------------------------------------------------------------
 
@@ -157,10 +265,13 @@ public class ManagerScene {
         viewTripsButton.setPrefHeight(46);
         viewTripsButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        mainPane.getChildren().addAll(infoPane, viewTripsPane, createTripPane, sideRect, infoButton, createTripButton, viewTripsButton);
+        mainPane.getChildren().addAll(infoPane, viewTripsPane, createTripPane, sideRect, logoutButton, infoButton, createTripButton, viewTripsButton);
         // End of drawing scene ----------------------------------------------------------------------------------------
 
         // Events Section ----------------------------------------------------------------------------------------------
+        logoutButton.setOnAction(event -> {
+            stage.setScene(homeScene);
+        });
         infoButton.setOnAction(event -> {
             infoPane.setVisible(true);
             createTripPane.setVisible(false);
@@ -187,6 +298,14 @@ public class ManagerScene {
             createTripButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
             viewTripsButton.setBackground(new Background(new BackgroundFill(Color.PALEGOLDENROD, CornerRadii.EMPTY, Insets.EMPTY)));
         });
+        saveButton.setOnAction(event -> {
+            sourceField.clear();
+            timeField.clear();
+            stopsField.clear();
+            costField.clear();
+            destinationField.clear();
+
+        });
         // End of events -----------------------------------------------------------------------------------------------
     }
 
@@ -194,7 +313,7 @@ public class ManagerScene {
         return scene;
     }
 
-    public void fillTables(Account account, TableView vehiclesTable, TableView driversTable){
+    public void fillTables(Account account, TableView vehiclesTable, TableView driversTable) {
         ArrayList<String> driverNumbersList = account.driversNumbers();
         ArrayList<String> driverList = account.driversList();
         int listIndex = 0;

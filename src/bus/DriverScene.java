@@ -23,18 +23,6 @@ public class DriverScene {
         // Drawing the Scene -------------------------------------------------------------------------------------------
         Pane pane = new Pane();
         scene = new Scene(pane, 788, 529);
-        // To read the driver's assigned trips
-        Trips trip = new Trips();
-        ArrayList<String> tripInfo = trip.getDriverTrips(account);
-        int rows = tripInfo.size() / 8;
-        int index = 0;
-        // Add the trips info into 2d array
-        String[][] tripArray = new String[rows][8];
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < 8; j++) {
-                tripArray[i][j] = tripInfo.get(index++);
-            }
-        }
         Font font = new Font(16);
 
         Label welcomeLabel = new Label("Welcome Driver");
@@ -136,12 +124,10 @@ public class DriverScene {
         tripsTable.setLayoutX(75);
         tripsTable.setLayoutY(310);
         tripsTable.setEditable(false);
-        for (int i = 0; i < rows; i++) {
-            tripsTable.getItems().add(tripArray[i]);
-        }
         tripsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tripsTable.getColumns().addAll(driverColumn, sourceColumn, destinationColumn, departTimeColumn, dateColumn);
         tripsTable.getColumns().addAll(stopsColumn, typeColumn, vehicleColumn);
+        fillTable(account, tripsTable);
 
 
         Button logoutButton = new Button("Logout");
@@ -171,5 +157,23 @@ public class DriverScene {
 
     public void setHomeScene(Scene homeScene) {
         this.homeScene = homeScene;
+    }
+
+    private void fillTable(Account account, TableView tripsTable){
+        // To read the driver's assigned trips
+        Trips trip = new Trips();
+        ArrayList<String> tripInfo = trip.getDriverTrips(account);
+        int rows = tripInfo.size() / 8;
+        int index = 0;
+        // Add the trips info into 2d array
+        String[][] tripArray = new String[rows][8];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < 8; j++) {
+                tripArray[i][j] = tripInfo.get(index++);
+            }
+        }
+        for(int i = 0; i < rows; i++) {
+            tripsTable.getItems().add(tripArray[i]);
+        }
     }
 }
