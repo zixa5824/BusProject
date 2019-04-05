@@ -1,4 +1,4 @@
-driver_account_ID source destination depart_time date(month/day/year) number_of_stops type vehicle
+driver_account_ID source destination depart_time date(month/day/year) number_of_stops type vehicle price
 
 9f951e0c Alexandria SharmElSheikh 6:00 3/26/2019 2 Internal Bus EGP200
 9f827e0c Alexandria Cairo 10:00 3/28/2019 1 Internal Limousine EGP5000
@@ -8,4 +8,9 @@ driver_account_ID source destination depart_time date(month/day/year) number_of_
 9f951e0c Alexandria Aswan 20:00 4/1/2019 5 Internal Bus EGP400
 e414d402 Aswan Cairo 0:00 4/2/2019 4 Internal Bus EGP100
 e414d402 Cairo Alexandria 6:00 4/5/2019 1 Internal Bus EGP100
-237af960 Alexandria Marina 8:00 4/11/2019 None Internal Bus EGP70
+237af960 Alexandria Marina 8:00 4/11/2019 0 Internal Bus EGP70
+9f951e0c Luxor Aswan 1:00 4/6/2019 5 Internal Bus EGP900
+9f951e0c PortSaid Tanta 9:00 4/4/2019 0 Internal Bus EGP50
+9f827e0c PortSaid Tanta 9:00 4/4/2019 0 Internal Limousine EGP50
+e414d402 Alex Cairo 5:00 4/18/2019 5 Internal Bus EGP305
+237af960 Alex SaudiArabia 5:00 4/17/2019 6 External Limousine EGP2000

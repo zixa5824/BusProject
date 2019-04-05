@@ -132,6 +132,13 @@ public class ManagerScene {
         sourceLabel.setLayoutX(14);
         sourceLabel.setLayoutY(130);
 
+        // Prints which drivers are being listed
+        Label stateLabel = new Label();
+        stateLabel.setFont(font);
+        stateLabel.setPrefWidth(200);
+        stateLabel.setLayoutX(431);
+        stateLabel.setLayoutY(380);
+
         Label timeLabel = new Label("Depart Time:");
         timeLabel.setFont(font);
         timeLabel.setPrefWidth(107);
@@ -209,20 +216,24 @@ public class ManagerScene {
         destinationField.setLayoutY(141);
 
         DatePicker datePicker = new DatePicker();
+        Label date = new Label();
+        datePicker.getEditor().textProperty().addListener((observable, oldValue, newValue) -> {
+            date.setText(newValue);
+        });
         datePicker.setLayoutX(431);
         datePicker.setLayoutY(227);
         datePicker.setPrefWidth(149);
         datePicker.setPrefHeight(25);
 
         ComboBox vehicleBox = new ComboBox();
-        vehicleBox.getItems().addAll("Bus","Limousine");
+        vehicleBox.getItems().addAll("Bus", "Limousine");
         vehicleBox.setLayoutX(431);
         vehicleBox.setLayoutY(317);
         vehicleBox.setPrefWidth(149);
         vehicleBox.setPrefHeight(25);
 
         ComboBox typeBox = new ComboBox();
-        typeBox.getItems().addAll("Interal","External");
+        typeBox.getItems().addAll("Internal", "External");
         typeBox.setLayoutX(155);
         typeBox.setLayoutY(471);
         typeBox.setPrefWidth(149);
@@ -233,10 +244,9 @@ public class ManagerScene {
         driverBox.setLayoutY(407);
         driverBox.setPrefWidth(149);
         driverBox.setPrefHeight(25);
-        ArrayList<Account> driversList = admin.listDrivers();
-        for (Account val:driversList) {
-            driverBox.getItems().add(val.getFirstName()+" "+val.getLastName());
-        }
+
+        // ComboBox corresponding to driverBox storing in it the account ID of the drivers
+        ComboBox driverIDBox = new ComboBox();
 
         Button saveButton = new Button("Save Trip");
         saveButton.setLayoutX(431);
@@ -244,12 +254,12 @@ public class ManagerScene {
         saveButton.setPrefWidth(107);
         saveButton.setPrefHeight(38);
 
-        System.out.println(admin.listDrivers());
+        System.out.println(admin.listDrivers("All"));
 
         createTripPane.getChildren().addAll(
                 headLabel, sourceLabel, timeLabel, stopsLabel, costLabel, destinationLabel, dateLabel, driverLabel,
                 sourceField, timeField, stopsField, costField, destinationField, datePicker, driverBox, saveButton,
-                vehicleBox, vehicleLabel, typeLabel, typeBox
+                vehicleBox, vehicleLabel, typeLabel, typeBox,stateLabel
         );
 
         // -------------------------------------------------------------------------------------------------------------
@@ -285,7 +295,8 @@ public class ManagerScene {
         viewTripsButton.setPrefHeight(46);
         viewTripsButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        mainPane.getChildren().addAll(infoPane, viewTripsPane, createTripPane, sideRect, logoutButton, infoButton, createTripButton, viewTripsButton);
+        mainPane.getChildren().addAll(infoPane, viewTripsPane, createTripPane, sideRect,
+                logoutButton, infoButton, createTripButton, viewTripsButton);
         // End of drawing scene ----------------------------------------------------------------------------------------
 
         // Events Section ----------------------------------------------------------------------------------------------
@@ -319,19 +330,66 @@ public class ManagerScene {
             viewTripsButton.setBackground(new Background(new BackgroundFill(Color.PALEGOLDENROD, CornerRadii.EMPTY, Insets.EMPTY)));
         });
         saveButton.setOnAction(event -> {
-            /*sourceField.clear();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+
+            if (sourceField.getText().isEmpty() || timeField.getText().isEmpty() || stopsField.getText().isEmpty() ||
+                    costField.getText().isEmpty() || destinationField.getText().isEmpty() ||
+                    typeBox.getSelectionModel().isEmpty() ||
+                    vehicleBox.getSelectionModel().isEmpty() || driverBox.getSelectionModel().isEmpty() ||
+                    date.getText().isEmpty()
+            )
+            {
+                alert.setContentText("Fill empty fields before saving");
+                alert.show();
+                return;
+            }
+
+            // To get the index of selected driver in the driver combo box
+            int selectedIndex = driverBox.getSelectionModel().getSelectedIndex();
+
+            admin.saveTrip(new Trips(driverIDBox.getItems().get(selectedIndex).toString(),
+                    sourceField.getText(), destinationField.getText(),
+                    timeField.getText(), date.getText(), stopsField.getText(),
+                    typeBox.getValue().toString(), vehicleBox.getValue().toString(), costField.getText())
+            );
+
+            sourceField.clear();
             timeField.clear();
             stopsField.clear();
             costField.clear();
-            destinationField.clear();*/
-            System.out.println(driverBox.getValue().toString()+" "+sourceField.getText()+" "+destinationField.getText()+" "+
-                    timeField.getText()+" "+datePicker.getValue().toString()+" "+ stopsField.getText()+" "+
-                    typeBox.getValue().toString()+" "+vehicleBox.getValue().toString());
-            admin.saveTrip(new Trips(driverBox.getValue().toString(),sourceField.getText(),destinationField.getText(),
-                    timeField.getText(),datePicker.getValue().toString(), stopsField.getText(),
-                    typeBox.getValue().toString(), vehicleBox.getValue().toString())
-            );
+            destinationField.clear();
+            driverBox.getItems().clear();
+            stateLabel.setText("");
 
+        });
+        driverBox.setOnMouseClicked(event -> {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+
+            if(vehicleBox.getSelectionModel().isEmpty())
+            {
+                alert.setContentText("Choose vehicle first");
+                alert.show();
+                return;
+            }
+            String driverType = vehicleBox.getValue().toString();
+            stateLabel.setText("Listing "+driverType+" drivers");
+            driverBox.getItems().clear();
+            driverIDBox.getItems().clear();
+
+            ArrayList<Account> driversList = admin.listDrivers(driverType);
+
+            for (Account val : driversList) {
+                driverBox.getItems().add(val.getFirstName() + " " + val.getLastName());
+            }
+
+            for (Account val : driversList) {
+                driverIDBox.getItems().add(val.getAccountID());
+            }
+        });
+        vehicleBox.setOnMouseClicked(event -> {
+            driverBox.getItems().clear();
+            stateLabel.setText("Listing..");
         });
         // End of events -----------------------------------------------------------------------------------------------
     }
@@ -342,7 +400,7 @@ public class ManagerScene {
 
     public void fillTables(TableView vehiclesTable, TableView driversTable) {
         ArrayList<String> driverNumbersList = admin.driversNumbers();
-        ArrayList<Account> driverList = admin.listDrivers();
+        ArrayList<Account> driverList = admin.listDrivers("All");
         int listIndex = 0;
         int listRows = driverNumbersList.size() / 2;
         String[][] driversNumbersArray = new String[listRows][2];
@@ -357,7 +415,7 @@ public class ManagerScene {
             vehiclesTable.getItems().add(driversNumbersArray[i]);
         }
 
-        for (int i = 0; i <driverList.size(); i++) {
+        for (int i = 0; i < driverList.size(); i++) {
             observableList.add(driverList.get(i));
         }
         driversTable.setItems(observableList);

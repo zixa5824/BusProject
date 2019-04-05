@@ -11,12 +11,12 @@ public interface AdminActions {
     /**
      * @return list of trips
      */
-//    public ArrayList<Trips> listTrips();
+    public ArrayList<Trips> listTrips();
 
     /**
      * @return list of drivers
      */
-    public ArrayList<Account> listDrivers();
+    public ArrayList<Account> listDrivers(String vehicle);
 
     /**
      * @return list of drivers

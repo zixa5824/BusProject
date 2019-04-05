@@ -5,14 +5,24 @@ package bus;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.Scanner;
 
 public class Admin implements AdminActions {
 
     // -----------------------------------------------------------------------------------------------------------------
     @Override
-    public ArrayList<Account> listDrivers() {
+    public ArrayList<Trips> listTrips() {
+        return null;
+    }
+    // -----------------------------------------------------------------------------------------------------------------
+
+    // -----------------------------------------------------------------------------------------------------------------
+    @Override
+    public ArrayList<Account> listDrivers(String vehicle) {
         FileReader fileReader = null;
         try {
 
@@ -29,7 +39,9 @@ public class Admin implements AdminActions {
                 lastName = actualFileScanner.next();
                 type = actualFileScanner.next();
                 if (profession.equals("Driver")) {
-                    driverList.add(new Account(accountID, firstName, lastName, type));
+
+                   if (type.equals(vehicle) || vehicle.equals("All"))
+                       driverList.add(new Account(accountID, firstName, lastName, type));
                 }
             }
             return driverList;
@@ -75,7 +87,15 @@ public class Admin implements AdminActions {
 
     @Override
     public void saveTrip(Trips trip) {
-
+        try {
+            FileWriter fileWriter = new FileWriter("src//trips.txt", true);
+            fileWriter.write("\n" + trip.getDriverAccountID() + " " + trip.getSource() + " " +
+                    trip.getDestination() + " " + trip.getDepartTime() + " " + trip.getDate() + " " + trip.getNumberOfStops() + " " +
+                    trip.getType() + " " + trip.getVehicle() + " " + trip.getPrice());
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     // -----------------------------------------------------------------------------------------------------------------
 
