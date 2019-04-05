@@ -1,7 +1,5 @@
 package bus;
 
-import sun.security.krb5.internal.Ticket;
-
 public interface CustomerActions {
 
 
