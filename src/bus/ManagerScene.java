@@ -105,7 +105,7 @@ public class ManagerScene {
         driversTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         driversTable.getColumns().addAll(driversColumn, vehicleColumn);
 
-        fillTables(account, vehiclesTable, driversTable);
+        fillTables(vehiclesTable, driversTable);
         infoPane.getChildren().addAll(welcomeLabel, nameLabel, vehiclesTable, driversTable);
         // -------------------------------------------------------------------------------------------------------------
 
@@ -318,7 +318,7 @@ public class ManagerScene {
         return scene;
     }
 
-    public void fillTables(Account account, TableView vehiclesTable, TableView driversTable) {
+    public void fillTables(TableView vehiclesTable, TableView driversTable) {
         ArrayList<String> driverNumbersList = admin.driversNumbers();
         ArrayList<Account> driverList = admin.listDrivers();
         int listIndex = 0;
@@ -331,15 +331,15 @@ public class ManagerScene {
                 driversNumbersArray[i][j] = driverNumbersList.get(listIndex++);
             }
         }
+        for (int i = 0; i < listRows; i++) {
+            vehiclesTable.getItems().add(driversNumbersArray[i]);
+        }
 
         for (int i = 0; i <driverList.size(); i++) {
             observableList.add(driverList.get(i));
         }
         driversTable.setItems(observableList);
 
-        for (int i = 0; i < listRows; i++) {
-            vehiclesTable.getItems().add(driversNumbersArray[i]);
-        }
 
     }
 

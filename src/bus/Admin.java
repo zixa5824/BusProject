@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Admin implements AdminActions {
+
+    // -----------------------------------------------------------------------------------------------------------------
     @Override
     public ArrayList<Account> listDrivers() {
         FileReader fileReader = null;
@@ -39,7 +41,9 @@ public class Admin implements AdminActions {
 
         return null;
     }
+    // -----------------------------------------------------------------------------------------------------------------
 
+    // -----------------------------------------------------------------------------------------------------------------
     // Method returns the vehicles with number of drivers for the vehicle (Used in manager scene)
     @Override
     public ArrayList<String> driversNumbers() {
@@ -68,6 +72,7 @@ public class Admin implements AdminActions {
         vehicleDriverList.add(Integer.toString(limoCount));
         return vehicleDriverList;
     }
+    // -----------------------------------------------------------------------------------------------------------------
 
     @Override
     public void saveTrip(ArrayList<Trips> list) {

@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class Account {
     private String accountID, firstName, lastName, type;
 
+    // Constructor used for entering data
     public Account(String accountID, String firstName, String lastName, String type) {
         this.accountID = accountID;
         this.firstName = firstName;
@@ -17,10 +18,12 @@ public class Account {
         this.type = type;
     }
 
+    // Constructor (method overloading) for not entering data
     Account() {
 
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
     // Validate username and password (Used in login scene)
     public boolean checkAccount(String username, String password, String type) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
