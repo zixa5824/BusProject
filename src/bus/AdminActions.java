@@ -29,9 +29,9 @@ public interface AdminActions {
 //    public void saveVehicles(ArrayList<Vehicle> list);
 
     /**
-     * @param list * save list of trips
+     * @param trip * save list of trips
      */
-    public void saveTrip(ArrayList<Trips> list);
+    public void saveTrip(Trips trip);
 
     /**
      * @param list * save list of drivers

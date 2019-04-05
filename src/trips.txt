@@ -1,4 +1,4 @@
-driver_account_ID source destination depart_time date number_of_stops type vehicle
+driver_account_ID source destination depart_time date(month/day/year) number_of_stops type vehicle
 
 9f951e0c Alexandria SharmElSheikh 6:00 3/26/2019 2 Internal Bus EGP200
 9f827e0c Alexandria Cairo 10:00 3/28/2019 1 Internal Limousine EGP5000

@@ -72,10 +72,12 @@ public class Admin implements AdminActions {
         vehicleDriverList.add(Integer.toString(limoCount));
         return vehicleDriverList;
     }
-    // -----------------------------------------------------------------------------------------------------------------
 
     @Override
-    public void saveTrip(ArrayList<Trips> list) {
+    public void saveTrip(Trips trip) {
 
     }
+    // -----------------------------------------------------------------------------------------------------------------
+
+
 }

@@ -15,6 +15,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Formatter;
 
 public class ManagerScene {
 
@@ -90,7 +91,7 @@ public class ManagerScene {
 
         TableColumn<Account, String> driversColumn = new TableColumn("Drivers");
         driversColumn.setMinWidth(110);
-        driversColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        driversColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
 
         TableColumn<Account, String> vehicleColumn = new TableColumn("Vehicle");
         vehicleColumn.setMinWidth(20);
@@ -151,6 +152,13 @@ public class ManagerScene {
         costLabel.setPrefHeight(46);
         costLabel.setLayoutX(14);
         costLabel.setLayoutY(396);
+
+        Label typeLabel = new Label("Trip Type:");
+        typeLabel.setFont(font);
+        typeLabel.setPrefWidth(107);
+        typeLabel.setPrefHeight(46);
+        typeLabel.setLayoutX(14);
+        typeLabel.setLayoutY(460);
 
         Label destinationLabel = new Label("Destination:");
         destinationLabel.setFont(font);
@@ -213,6 +221,13 @@ public class ManagerScene {
         vehicleBox.setPrefWidth(149);
         vehicleBox.setPrefHeight(25);
 
+        ComboBox typeBox = new ComboBox();
+        typeBox.getItems().addAll("Interal","External");
+        typeBox.setLayoutX(155);
+        typeBox.setLayoutY(471);
+        typeBox.setPrefWidth(149);
+        typeBox.setPrefHeight(25);
+
         ComboBox driverBox = new ComboBox();
         driverBox.setLayoutX(431);
         driverBox.setLayoutY(407);
@@ -234,7 +249,7 @@ public class ManagerScene {
         createTripPane.getChildren().addAll(
                 headLabel, sourceLabel, timeLabel, stopsLabel, costLabel, destinationLabel, dateLabel, driverLabel,
                 sourceField, timeField, stopsField, costField, destinationField, datePicker, driverBox, saveButton,
-                vehicleBox, vehicleLabel
+                vehicleBox, vehicleLabel, typeLabel, typeBox
         );
 
         // -------------------------------------------------------------------------------------------------------------
@@ -304,11 +319,18 @@ public class ManagerScene {
             viewTripsButton.setBackground(new Background(new BackgroundFill(Color.PALEGOLDENROD, CornerRadii.EMPTY, Insets.EMPTY)));
         });
         saveButton.setOnAction(event -> {
-            sourceField.clear();
+            /*sourceField.clear();
             timeField.clear();
             stopsField.clear();
             costField.clear();
-            destinationField.clear();
+            destinationField.clear();*/
+            System.out.println(driverBox.getValue().toString()+" "+sourceField.getText()+" "+destinationField.getText()+" "+
+                    timeField.getText()+" "+datePicker.getValue().toString()+" "+ stopsField.getText()+" "+
+                    typeBox.getValue().toString()+" "+vehicleBox.getValue().toString());
+            admin.saveTrip(new Trips(driverBox.getValue().toString(),sourceField.getText(),destinationField.getText(),
+                    timeField.getText(),datePicker.getValue().toString(), stopsField.getText(),
+                    typeBox.getValue().toString(), vehicleBox.getValue().toString())
+            );
 
         });
         // End of events -----------------------------------------------------------------------------------------------

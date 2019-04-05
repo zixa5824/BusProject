@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Trips {
-    String driverAccountID,source,destination,departTime,date,numberOfStops,type,vehicle;
+    private String driverAccountID,source,destination,departTime,date,numberOfStops,type,vehicle;
 
     public Trips(String driverAccountID, String source, String destination, String departTime, String date, String numberOfStops, String type, String vehicle) {
         this.driverAccountID = driverAccountID;
@@ -23,6 +23,7 @@ public class Trips {
 
     }
 
+    // -------------------------------------------------------------------------------------------------------------
     // This method finds driver's assigned trips and returns it to his table of trips (Used in driver scene)
     public ArrayList<String> getDriverTrips(Account account) {
 
@@ -53,4 +54,36 @@ public class Trips {
     }
     // -----------------------------------------------------------------------------------------------------------------
 
+
+    public String getDriverAccountID() {
+        return driverAccountID;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public String getDepartTime() {
+        return departTime;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getNumberOfStops() {
+        return numberOfStops;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getVehicle() {
+        return vehicle;
+    }
 }
