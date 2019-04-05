@@ -14,7 +14,6 @@ public class Admin implements AdminActions {
         FileReader fileReader = null;
         try {
 
-
             fileReader = new FileReader("src//accounts.txt");
             Scanner actualFileScanner = new Scanner(fileReader);
             String accountID, firstName, lastName, profession, type;
@@ -27,8 +26,8 @@ public class Admin implements AdminActions {
                 firstName = actualFileScanner.next();
                 lastName = actualFileScanner.next();
                 type = actualFileScanner.next();
-                if(profession.equals("driver")){
-                    driverList.add(new Account(accountID,firstName,lastName));
+                if (profession.equals("Driver")) {
+                    driverList.add(new Account(accountID, firstName, lastName));
                 }
             }
             return driverList;
@@ -39,6 +38,35 @@ public class Admin implements AdminActions {
 
 
         return null;
+    }
+
+    // Method returns the vehicles with number of drivers for the vehicle (Used in manager scene)
+    @Override
+    public ArrayList<String> driversNumbers() {
+        int busCount = 0, limoCount = 0;
+        String next;
+        ArrayList<String> vehicleDriverList = new ArrayList<>();
+
+        try {
+            FileReader fileReader = new FileReader("src//accounts.txt");
+            Scanner actualFileScanner = new Scanner(fileReader);
+
+            while (actualFileScanner.hasNext()) {
+                next = actualFileScanner.next();
+                if (next.equals("Bus")) {
+                    busCount++;
+                } else if (next.equals("Limousine")) {
+                    limoCount++;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        vehicleDriverList.add("Bus");
+        vehicleDriverList.add(Integer.toString(busCount));
+        vehicleDriverList.add("Limousine");
+        vehicleDriverList.add(Integer.toString(limoCount));
+        return vehicleDriverList;
     }
 
     @Override

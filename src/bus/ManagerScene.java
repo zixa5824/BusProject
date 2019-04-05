@@ -1,8 +1,6 @@
 package bus;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,12 +17,13 @@ public class ManagerScene {
 
     private Scene scene;
     private Scene homeScene;
+    private Admin admin;
 
 
     ManagerScene(Stage stage, Account account) {
         // Drawing the Scene -------------------------------------------------------------------------------------------
         Pane mainPane = new Pane();
-        Admin admin = new Admin();
+        admin = new Admin();
         scene = new Scene(mainPane, 788, 529);
 
         Rectangle sideRect = new Rectangle(0, 0, 163, 529);
@@ -226,6 +225,8 @@ public class ManagerScene {
         saveButton.setPrefWidth(107);
         saveButton.setPrefHeight(38);
 
+        System.out.println(admin.listDrivers());
+
         createTripPane.getChildren().addAll(
                 headLabel, sourceLabel, timeLabel, stopsLabel, costLabel, destinationLabel, dateLabel, driverLabel,
                 sourceField, timeField, stopsField, costField, destinationField, datePicker, driverBox, saveButton,
@@ -314,7 +315,7 @@ public class ManagerScene {
     }
 
     public void fillTables(Account account, TableView vehiclesTable, TableView driversTable) {
-        ArrayList<String> driverNumbersList = account.driversNumbers();
+        ArrayList<String> driverNumbersList = admin.driversNumbers();
         ArrayList<String> driverList = account.driversList();
         int listIndex = 0;
         int listRows = driverNumbersList.size() / 2;

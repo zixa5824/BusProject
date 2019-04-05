@@ -99,11 +99,11 @@ public class LoginScene {
             password = passwordField.getText().toLowerCase();
 
             if (clientButton.isSelected()) {
-                if (account.checkAccount(username, password, "client")) {
+                if (account.checkAccount(username, password, "Client")) {
                     System.out.println("Welcome Client");
                 }
             } else if (driverButton.isSelected()) {
-                if (account.checkAccount(username, password, "driver")) {
+                if (account.checkAccount(username, password, "Driver")) {
                     // Account is correct then make driver scene class and give it the stage and logic account
                     DriverScene driverScene = new DriverScene(stage, account);
                     driverScene.setHomeScene(this.scene);
@@ -115,7 +115,7 @@ public class LoginScene {
                     // ------------------------------------------------------------------------------
                 }
             } else if (managerButton.isSelected()) {
-                if (account.checkAccount(username, password, "manager")) {
+                if (account.checkAccount(username, password, "Manager")) {
                     // Account is correct then make manager scene class and give it the stage and logic account
                     ManagerScene managerScene= new ManagerScene(stage, account);
                     managerScene.setHomeScene(this.scene);

@@ -10,9 +10,6 @@ import java.util.Scanner;
 
 public class Account {
     private String accountID, firstName, lastName;
-    private Alert alert;
-    private FileReader fileReader;
-    private Scanner actualFileScanner = null;
 
     public Account(String accountID, String firstName, String lastName) {
         this.accountID = accountID;
@@ -26,14 +23,14 @@ public class Account {
 
     // Validate username and password (Used in login scene)
     public boolean checkAccount(String username, String password, String type) {
-        alert = new Alert(Alert.AlertType.ERROR);
+        Alert alert = new Alert(Alert.AlertType.ERROR);
         String next;
         String previous = null;
         try {
 
-            fileReader = new FileReader("src//accounts.txt");
+            FileReader fileReader = new FileReader("src//accounts.txt");
 
-            actualFileScanner = new Scanner(fileReader);
+            Scanner actualFileScanner = new Scanner(fileReader);
 
             while (actualFileScanner.hasNext()) {
                 next = actualFileScanner.next();
@@ -84,12 +81,12 @@ public class Account {
         ArrayList<String> drivers = new ArrayList<>();
 
         try {
-            fileReader = new FileReader("src//accounts.txt");
-            actualFileScanner = new Scanner(fileReader);
+            FileReader fileReader = new FileReader("src//accounts.txt");
+            Scanner actualFileScanner = new Scanner(fileReader);
 
             while (actualFileScanner.hasNext()) {
                 next = actualFileScanner.next();
-                if (next.equals("driver")) {
+                if (next.equals("Driver")) {
                     name = (actualFileScanner.next()+" "+actualFileScanner.next());
                     drivers.add(name);
                     drivers.add(actualFileScanner.next());
@@ -101,33 +98,6 @@ public class Account {
         return drivers;
     }
 
-    // Method returns the vehicles with number of drivers for the vehicle (Used in manager scene)
-    ArrayList<String> driversNumbers() {
-        int busCount = 0, limoCount = 0;
-        String next;
-        ArrayList<String> vehicleDriverList = new ArrayList<>();
-
-        try {
-            fileReader = new FileReader("src//accounts.txt");
-            actualFileScanner = new Scanner(fileReader);
-
-            while (actualFileScanner.hasNext()) {
-                next = actualFileScanner.next();
-                if (next.equals("Bus")) {
-                    busCount++;
-                } else if (next.equals("Limousine")) {
-                    limoCount++;
-                }
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        vehicleDriverList.add("Bus");
-        vehicleDriverList.add(Integer.toString(busCount));
-        vehicleDriverList.add("Limousine");
-        vehicleDriverList.add(Integer.toString(limoCount));
-        return vehicleDriverList;
-    }
     // -----------------------------------------------------------------------------------------------------------------
 
     public String getFirstName() {
