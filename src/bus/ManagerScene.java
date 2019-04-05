@@ -1,10 +1,13 @@
 package bus;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -85,17 +88,13 @@ public class ManagerScene {
 
         // Second Table
 
-        TableColumn<String[], String> driversColumn = new TableColumn("Drivers");
+        TableColumn<Account, String> driversColumn = new TableColumn("Drivers");
         driversColumn.setMinWidth(110);
-        driversColumn.setCellValueFactory(param -> {
-            return new SimpleStringProperty(param.getValue()[0]);
-        });
+        driversColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
 
-        TableColumn<String[], String> vehicleColumn = new TableColumn("Vehicle");
+        TableColumn<Account, String> vehicleColumn = new TableColumn("Vehicle");
         vehicleColumn.setMinWidth(20);
-        vehicleColumn.setCellValueFactory(param -> {
-            return new SimpleStringProperty(param.getValue()[1]);
-        });
+        vehicleColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
 
         TableView driversTable = new TableView();
         driversTable.setPrefWidth(226);
@@ -208,6 +207,7 @@ public class ManagerScene {
         datePicker.setPrefHeight(25);
 
         ComboBox vehicleBox = new ComboBox();
+        vehicleBox.getItems().addAll("Bus","Limousine");
         vehicleBox.setLayoutX(431);
         vehicleBox.setLayoutY(317);
         vehicleBox.setPrefWidth(149);
@@ -218,6 +218,10 @@ public class ManagerScene {
         driverBox.setLayoutY(407);
         driverBox.setPrefWidth(149);
         driverBox.setPrefHeight(25);
+        ArrayList<Account> driversList = admin.listDrivers();
+        for (Account val:driversList) {
+            driverBox.getItems().add(val.getFirstName()+" "+val.getLastName());
+        }
 
         Button saveButton = new Button("Save Trip");
         saveButton.setLayoutX(431);
@@ -316,12 +320,11 @@ public class ManagerScene {
 
     public void fillTables(Account account, TableView vehiclesTable, TableView driversTable) {
         ArrayList<String> driverNumbersList = admin.driversNumbers();
-        ArrayList<String> driverList = account.driversList();
+        ArrayList<Account> driverList = admin.listDrivers();
         int listIndex = 0;
         int listRows = driverNumbersList.size() / 2;
-        int driverListRows = driverList.size() / 2;
         String[][] driversNumbersArray = new String[listRows][2];
-        String[][] driversListArray = new String[driverListRows][2];
+        ObservableList<Account> observableList = FXCollections.observableArrayList();
 
         for (int i = 0; i < listRows; i++) {
             for (int j = 0; j < 2; j++) {
@@ -329,20 +332,15 @@ public class ManagerScene {
             }
         }
 
-        listIndex = 0;
-        for (int i = 0; i < driverListRows; i++) {
-            for (int j = 0; j < 2; j++) {
-                driversListArray[i][j] = driverList.get(listIndex++);
-            }
+        for (int i = 0; i <driverList.size(); i++) {
+            observableList.add(driverList.get(i));
         }
+        driversTable.setItems(observableList);
 
         for (int i = 0; i < listRows; i++) {
             vehiclesTable.getItems().add(driversNumbersArray[i]);
         }
 
-        for (int i = 0; i < driverListRows; i++) {
-            driversTable.getItems().add(driversListArray[i]);
-        }
     }
 
     public void setHomeScene(Scene homeScene) {

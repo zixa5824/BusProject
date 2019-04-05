@@ -5,19 +5,19 @@ import javafx.scene.control.Alert;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Account {
-    private String accountID, firstName, lastName;
+    private String accountID, firstName, lastName, type;
 
-    public Account(String accountID, String firstName, String lastName) {
+    public Account(String accountID, String firstName, String lastName, String type) {
         this.accountID = accountID;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.type = type;
     }
 
-    Account(){
+    Account() {
 
     }
 
@@ -43,6 +43,7 @@ public class Account {
                             accountID = previous;
                             firstName = actualFileScanner.next();
                             lastName = actualFileScanner.next();
+                            type = actualFileScanner.next();
                             fileReader.close();
                             return true;
                         } else {
@@ -74,29 +75,6 @@ public class Account {
     }
     // -----------------------------------------------------------------------------------------------------------------
 
-    // Method returns a list of drivers (Used in manager scene)
-    ArrayList<String> driversList() {
-        String next;
-        String name;
-        ArrayList<String> drivers = new ArrayList<>();
-
-        try {
-            FileReader fileReader = new FileReader("src//accounts.txt");
-            Scanner actualFileScanner = new Scanner(fileReader);
-
-            while (actualFileScanner.hasNext()) {
-                next = actualFileScanner.next();
-                if (next.equals("Driver")) {
-                    name = (actualFileScanner.next()+" "+actualFileScanner.next());
-                    drivers.add(name);
-                    drivers.add(actualFileScanner.next());
-                }
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return drivers;
-    }
 
     // -----------------------------------------------------------------------------------------------------------------
 
@@ -110,5 +88,9 @@ public class Account {
 
     public String getAccountID() {
         return accountID;
+    }
+
+    public String getType() {
+        return type;
     }
 }

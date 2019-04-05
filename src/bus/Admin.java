@@ -27,7 +27,7 @@ public class Admin implements AdminActions {
                 lastName = actualFileScanner.next();
                 type = actualFileScanner.next();
                 if (profession.equals("Driver")) {
-                    driverList.add(new Account(accountID, firstName, lastName));
+                    driverList.add(new Account(accountID, firstName, lastName, type));
                 }
             }
             return driverList;
