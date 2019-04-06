@@ -240,6 +240,14 @@ public class ManagerScene {
         typeBox.setPrefWidth(149);
         typeBox.setPrefHeight(25);
 
+        ComboBox currencyBox = new ComboBox();
+        currencyBox.setLayoutX(76);
+        currencyBox.setLayoutY(407);
+        currencyBox.setPrefWidth(77);
+        currencyBox.setPrefHeight(25);
+        currencyBox.getItems().addAll("EGP", "USD");
+
+
         ComboBox driverBox = new ComboBox();
         driverBox.setLayoutX(431);
         driverBox.setLayoutY(407);
@@ -260,7 +268,7 @@ public class ManagerScene {
         createTripPane.getChildren().addAll(
                 headLabel, sourceLabel, timeLabel, stopsLabel, costLabel, destinationLabel, dateLabel, driverLabel,
                 sourceField, timeField, stopsField, costField, destinationField, datePicker, driverBox, saveButton,
-                vehicleBox, vehicleLabel, typeLabel, typeBox,stateLabel
+                vehicleBox, vehicleLabel, typeLabel, typeBox, stateLabel, currencyBox
         );
 
         // -------------------------------------------------------------------------------------------------------------
@@ -288,7 +296,6 @@ public class ManagerScene {
         createTripButton.setPrefHeight(46);
         createTripButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 
-
         Button viewTripsButton = new Button("View All Trips");
         viewTripsButton.setLayoutX(0);
         viewTripsButton.setLayoutY(400);
@@ -304,6 +311,8 @@ public class ManagerScene {
         logoutButton.setOnAction(event -> {
             stage.setScene(homeScene);
         });
+        // -------------------------------------------------------------------------------------------------------------
+
         infoButton.setOnAction(event -> {
             infoPane.setVisible(true);
             createTripPane.setVisible(false);
@@ -312,6 +321,7 @@ public class ManagerScene {
             createTripButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
             viewTripsButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         });
+        // -------------------------------------------------------------------------------------------------------------
 
         createTripButton.setOnAction(event -> {
             infoPane.setVisible(false);
@@ -321,6 +331,7 @@ public class ManagerScene {
             createTripButton.setBackground(new Background(new BackgroundFill(Color.PALEGOLDENROD, CornerRadii.EMPTY, Insets.EMPTY)));
             viewTripsButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         });
+        // -------------------------------------------------------------------------------------------------------------
 
         viewTripsButton.setOnAction(event -> {
             infoPane.setVisible(false);
@@ -330,16 +341,17 @@ public class ManagerScene {
             createTripButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
             viewTripsButton.setBackground(new Background(new BackgroundFill(Color.PALEGOLDENROD, CornerRadii.EMPTY, Insets.EMPTY)));
         });
+        // -------------------------------------------------------------------------------------------------------------
+
         saveButton.setOnAction(event -> {
             Alert alert = new Alert(Alert.AlertType.ERROR);
 
             if (sourceField.getText().isEmpty() || timeField.getText().isEmpty() || stopsField.getText().isEmpty() ||
                     costField.getText().isEmpty() || destinationField.getText().isEmpty() ||
-                    typeBox.getSelectionModel().isEmpty() ||
+                    typeBox.getSelectionModel().isEmpty() || currencyBox.getSelectionModel().isEmpty() ||
                     vehicleBox.getSelectionModel().isEmpty() || driverBox.getSelectionModel().isEmpty() ||
                     date.getText().isEmpty()
-            )
-            {
+            ) {
                 alert.setContentText("Fill empty fields before saving");
                 alert.show();
                 return;
@@ -351,7 +363,8 @@ public class ManagerScene {
             admin.saveTrip(new Trips(driverIDBox.getItems().get(selectedIndex).toString(),
                     sourceField.getText(), destinationField.getText(),
                     timeField.getText(), date.getText(), stopsField.getText(),
-                    typeBox.getValue().toString(), vehicleBox.getValue().toString(), costField.getText())
+                    typeBox.getValue().toString(), vehicleBox.getValue().toString(),
+                    currencyBox.getValue().toString()+costField.getText())
             );
 
             sourceField.clear();
@@ -363,18 +376,19 @@ public class ManagerScene {
             stateLabel.setText("");
 
         });
+        // -------------------------------------------------------------------------------------------------------------
+
         driverBox.setOnMouseClicked(event -> {
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
 
-            if(vehicleBox.getSelectionModel().isEmpty())
-            {
+            if (vehicleBox.getSelectionModel().isEmpty()) {
                 alert.setContentText("Choose vehicle first");
                 alert.show();
                 return;
             }
             String driverType = vehicleBox.getValue().toString();
-            stateLabel.setText("Listing "+driverType+" drivers");
+            stateLabel.setText("Listing " + driverType + " drivers");
             driverBox.getItems().clear();
             driverIDBox.getItems().clear();
 
@@ -388,6 +402,8 @@ public class ManagerScene {
                 driverIDBox.getItems().add(val.getAccountID());
             }
         });
+        // -------------------------------------------------------------------------------------------------------------
+
         vehicleBox.setOnMouseClicked(event -> {
             driverBox.getItems().clear();
             stateLabel.setText("Listing..");
