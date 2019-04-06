@@ -7,10 +7,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Trips {
-    private String driverAccountID, source, destination, departTime, date, numberOfStops, type, vehicle, price;
+    private String driverAccountID, driverName, source, destination, departTime, date, numberOfStops, type, vehicle, price;
 
-    public Trips(String driverAccountID, String source, String destination, String departTime, String date, String numberOfStops, String type, String vehicle, String price) {
+    public Trips(String driverAccountID, String driverName, String source, String destination, String departTime, String date, String numberOfStops, String type, String vehicle, String price) {
         this.driverAccountID = driverAccountID;
+        this.driverName = driverName;
         this.source = source;
         this.destination = destination;
         this.departTime = departTime;
@@ -39,7 +40,8 @@ public class Trips {
             while (actualFileScanner.hasNext()) {
                 next = actualFileScanner.next();
                 if (next.equals(account.getAccountID())) {
-                    tripDetails.add(account.getFirstName());
+                    tripDetails.add(actualFileScanner.next());
+                    actualFileScanner.next(); // to skip reading last name from the file
                     for (int i = 1; i < 8; i++) {
                         tripDetails.add(actualFileScanner.next());
                     }
@@ -91,5 +93,9 @@ public class Trips {
 
     public String getPrice() {
         return price;
+    }
+
+    public String getDriverName() {
+        return driverName;
     }
 }

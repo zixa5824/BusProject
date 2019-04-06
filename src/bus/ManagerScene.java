@@ -107,7 +107,6 @@ public class ManagerScene {
         driversTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         driversTable.getColumns().addAll(driversColumn, vehicleColumn);
 
-        fillTables(vehiclesTable, driversTable);
         infoPane.getChildren().addAll(welcomeLabel, nameLabel, vehiclesTable, driversTable);
         // -------------------------------------------------------------------------------------------------------------
 
@@ -280,6 +279,42 @@ public class ManagerScene {
         viewTripsPane.setPrefWidth(625);
         viewTripsPane.setPrefHeight(529);
         viewTripsPane.setVisible(false);
+
+        Button editButton = new Button("Edit Trip");
+        editButton.setLayoutX(197);
+        editButton.setLayoutY(428);
+
+        Button deleteButton = new Button("Delete Trip");
+        deleteButton.setLayoutX(338);
+        deleteButton.setLayoutY(428);
+//driverAccountID, source, destination, departTime, date, numberOfStops, type, vehicle, price;
+        TableColumn driverNameColumn = new TableColumn();
+
+        TableColumn sourceColumn = new TableColumn();
+
+        TableColumn destinationColumn = new TableColumn();
+
+        TableColumn timeColumn = new TableColumn();
+
+        TableColumn dateColumn = new TableColumn();
+
+        TableColumn stopsColumn = new TableColumn();
+
+        TableColumn typeColumn = new TableColumn();
+
+        TableColumn vehicleTypeColumn = new TableColumn();
+
+        TableColumn priceColumn = new TableColumn();
+
+        TableView allTripsTable = new TableView();
+        allTripsTable.setLayoutX(13);
+        allTripsTable.setLayoutY(66);
+        allTripsTable.setPrefWidth(600);
+        allTripsTable.setPrefHeight(313);
+        allTripsTable.getColumns().addAll(driverNameColumn, sourceColumn, destinationColumn, timeColumn, dateColumn,
+                stopsColumn, typeColumn, vehicleTypeColumn, priceColumn);
+        allTripsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
         // -------------------------------------------------------------------------------------------------------------
 
         Button infoButton = new Button("General Info");
@@ -303,6 +338,7 @@ public class ManagerScene {
         viewTripsButton.setPrefHeight(46);
         viewTripsButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 
+        fillTables(vehiclesTable, driversTable, allTripsTable);
         mainPane.getChildren().addAll(infoPane, viewTripsPane, createTripPane, sideRect,
                 logoutButton, infoButton, createTripButton, viewTripsButton);
         // End of drawing scene ----------------------------------------------------------------------------------------
@@ -361,10 +397,9 @@ public class ManagerScene {
             int selectedIndex = driverBox.getSelectionModel().getSelectedIndex();
 
             admin.saveTrip(new Trips(driverIDBox.getItems().get(selectedIndex).toString(),
-                    sourceField.getText(), destinationField.getText(),
-                    timeField.getText(), date.getText(), stopsField.getText(),
-                    typeBox.getValue().toString(), vehicleBox.getValue().toString(),
-                    currencyBox.getValue().toString()+costField.getText())
+                    driverBox.getValue().toString(), sourceField.getText(), destinationField.getText(),
+                    timeField.getText(), date.getText(), stopsField.getText(), typeBox.getValue().toString(),
+                    vehicleBox.getValue().toString(), currencyBox.getValue().toString() + costField.getText())
             );
 
             sourceField.clear();
@@ -415,7 +450,7 @@ public class ManagerScene {
         return scene;
     }
 
-    public void fillTables(TableView vehiclesTable, TableView driversTable) {
+    public void fillTables(TableView vehiclesTable, TableView driversTable, TableView tripsTable) {
         ArrayList<String> driverNumbersList = admin.driversNumbers();
         ArrayList<Account> driverList = admin.listDrivers("All");
         int listIndex = 0;

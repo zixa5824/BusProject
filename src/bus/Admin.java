@@ -90,9 +90,10 @@ public class Admin implements AdminActions {
         String randomID = UUID.randomUUID().toString().substring(0, 7);
         try {
             FileWriter fileWriter = new FileWriter("src//trips.txt", true);
-            fileWriter.write("\n" + randomID + " " + trip.getDriverAccountID() + " " + trip.getSource() + " " +
-                    trip.getDestination() + " " + trip.getDepartTime() + " " + trip.getDate() + " " + trip.getNumberOfStops() + " " +
-                    trip.getType() + " " + trip.getVehicle() + " " + trip.getPrice());
+            fileWriter.write("\n" + randomID + " " + trip.getDriverAccountID()+ " " +trip.getDriverName() + " " +
+                    trip.getSource() + " " + trip.getDestination() + " " + trip.getDepartTime() + " " +
+                    trip.getDate() + " " + trip.getNumberOfStops() + " " + trip.getType() + " " +
+                    trip.getVehicle() + " " + trip.getPrice());
             fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
