@@ -15,7 +15,6 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.Formatter;
 import java.util.UUID;
 
 public class ManagerScene {
@@ -31,11 +30,11 @@ public class ManagerScene {
         admin = new Admin();
         scene = new Scene(mainPane, 788, 529);
 
-        Rectangle sideRect = new Rectangle(0, 0, 163, 529);
+        Rectangle sideRect = new Rectangle(0, 0, 120, 529);
         sideRect.setFill(Color.BLACK);
 
         Button logoutButton = new Button("Logout");
-        logoutButton.setLayoutX(39);
+        logoutButton.setLayoutX(18);
         logoutButton.setLayoutY(14);
         logoutButton.setPrefWidth(85);
         logoutButton.setPrefHeight(46);
@@ -44,9 +43,9 @@ public class ManagerScene {
 
         // Contents of info pane ---------------------------------------------------------------------------------------
         Pane infoPane = new Pane();
-        infoPane.setLayoutX(163);
+        infoPane.setLayoutX(119 );
         infoPane.setLayoutY(0);
-        infoPane.setPrefWidth(625);
+        infoPane.setPrefWidth(669);
         infoPane.setPrefHeight(529);
 
         Label welcomeLabel = new Label("Welcome Manager");
@@ -112,9 +111,9 @@ public class ManagerScene {
 
         // Contents of create trip pane --------------------------------------------------------------------------------
         Pane createTripPane = new Pane();
-        createTripPane.setLayoutX(163);
+        createTripPane.setLayoutX(119);
         createTripPane.setLayoutY(0);
-        createTripPane.setPrefWidth(625);
+        createTripPane.setPrefWidth(669);
         createTripPane.setPrefHeight(529);
         createTripPane.setVisible(false);
 
@@ -122,7 +121,7 @@ public class ManagerScene {
         headLabel.setFont(font);
         headLabel.setPrefWidth(107);
         headLabel.setPrefHeight(46);
-        headLabel.setLayoutX(259);
+        headLabel.setLayoutX(279);
         headLabel.setLayoutY(49);
 
         Label sourceLabel = new Label("Source:");
@@ -262,8 +261,6 @@ public class ManagerScene {
         saveButton.setPrefWidth(107);
         saveButton.setPrefHeight(38);
 
-        System.out.println(admin.listDrivers("All"));
-
         createTripPane.getChildren().addAll(
                 headLabel, sourceLabel, timeLabel, stopsLabel, costLabel, destinationLabel, dateLabel, driverLabel,
                 sourceField, timeField, stopsField, costField, destinationField, datePicker, driverBox, saveButton,
@@ -274,9 +271,9 @@ public class ManagerScene {
 
         // Contents of view trips pane ---------------------------------------------------------------------------------
         Pane viewTripsPane = new Pane();
-        viewTripsPane.setLayoutX(163);
+        viewTripsPane.setLayoutX(119);
         viewTripsPane.setLayoutY(0);
-        viewTripsPane.setPrefWidth(625);
+        viewTripsPane.setPrefWidth(669);
         viewTripsPane.setPrefHeight(529);
         viewTripsPane.setVisible(false);
 
@@ -287,54 +284,70 @@ public class ManagerScene {
         Button deleteButton = new Button("Delete Trip");
         deleteButton.setLayoutX(338);
         deleteButton.setLayoutY(428);
-//driverAccountID, source, destination, departTime, date, numberOfStops, type, vehicle, price;
-        TableColumn driverNameColumn = new TableColumn();
+//tripID, driverAccountID, driverName, source, destination, departTime, date, numberOfStops, type, vehicle, price;
+        TableColumn<Trips, String> driverNameColumn = new TableColumn("Driver");
+        driverNameColumn.setCellValueFactory(new PropertyValueFactory<>("driverName"));
 
-        TableColumn sourceColumn = new TableColumn();
+        TableColumn<Trips, String> sourceColumn = new TableColumn("Source");
+        sourceColumn.setCellValueFactory(new PropertyValueFactory<>("source"));
 
-        TableColumn destinationColumn = new TableColumn();
+        TableColumn<Trips, String> destinationColumn = new TableColumn("Destination");
+        destinationColumn.setCellValueFactory(new PropertyValueFactory<>("destination"));
 
-        TableColumn timeColumn = new TableColumn();
+        TableColumn<Trips, String> timeColumn = new TableColumn("Time");
+        timeColumn.setCellValueFactory(new PropertyValueFactory<>("departTime"));
 
-        TableColumn dateColumn = new TableColumn();
+        TableColumn<Trips, String> dateColumn = new TableColumn("Date");
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
 
-        TableColumn stopsColumn = new TableColumn();
+        TableColumn<Trips, String> stopsColumn = new TableColumn("Stops");
+        stopsColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfStops"));
 
-        TableColumn typeColumn = new TableColumn();
+        TableColumn<Trips, String> typeColumn = new TableColumn("Type");
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
 
-        TableColumn vehicleTypeColumn = new TableColumn();
+        TableColumn<Trips, String> vehicleTypeColumn = new TableColumn("Vehicle");
+        vehicleTypeColumn.setCellValueFactory(new PropertyValueFactory<>("vehicle"));
 
-        TableColumn priceColumn = new TableColumn();
+        TableColumn<Trips, String> priceColumn = new TableColumn("Price");
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        TableColumn<Trips, String> tripIDColumn = new TableColumn();
+        tripIDColumn.setCellValueFactory(new PropertyValueFactory<>("tripID"));
+        tripIDColumn.setVisible(false);
 
         TableView allTripsTable = new TableView();
         allTripsTable.setLayoutX(13);
         allTripsTable.setLayoutY(66);
-        allTripsTable.setPrefWidth(600);
+        allTripsTable.setPrefWidth(639);
         allTripsTable.setPrefHeight(313);
+        allTripsTable.setEditable(false);
         allTripsTable.getColumns().addAll(driverNameColumn, sourceColumn, destinationColumn, timeColumn, dateColumn,
-                stopsColumn, typeColumn, vehicleTypeColumn, priceColumn);
-        allTripsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+                stopsColumn, typeColumn, vehicleTypeColumn, priceColumn, tripIDColumn);
+        allTripsTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+
+        viewTripsPane.getChildren().addAll(editButton, deleteButton, allTripsTable);
 
         // -------------------------------------------------------------------------------------------------------------
 
         Button infoButton = new Button("General Info");
         infoButton.setLayoutX(0);
         infoButton.setLayoutY(95);
-        infoButton.setPrefWidth(163);
+        infoButton.setPrefWidth(120);
         infoButton.setPrefHeight(46);
         infoButton.setBackground(new Background(new BackgroundFill(Color.PALEGOLDENROD, CornerRadii.EMPTY, Insets.EMPTY)));
 
         Button createTripButton = new Button("Create Trip");
         createTripButton.setLayoutX(0);
         createTripButton.setLayoutY(242);
-        createTripButton.setPrefWidth(163);
+        createTripButton.setPrefWidth(120);
         createTripButton.setPrefHeight(46);
         createTripButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 
         Button viewTripsButton = new Button("View All Trips");
         viewTripsButton.setLayoutX(0);
         viewTripsButton.setLayoutY(400);
-        viewTripsButton.setPrefWidth(163);
+        viewTripsButton.setPrefWidth(120);
         viewTripsButton.setPrefHeight(46);
         viewTripsButton.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 
@@ -381,6 +394,7 @@ public class ManagerScene {
 
         saveButton.setOnAction(event -> {
             Alert alert = new Alert(Alert.AlertType.ERROR);
+            Alert info = new Alert(Alert.AlertType.INFORMATION);
 
             if (sourceField.getText().isEmpty() || timeField.getText().isEmpty() || stopsField.getText().isEmpty() ||
                     costField.getText().isEmpty() || destinationField.getText().isEmpty() ||
@@ -395,8 +409,8 @@ public class ManagerScene {
 
             // To get the index of selected driver in the driver combo box
             int selectedIndex = driverBox.getSelectionModel().getSelectedIndex();
-
-            admin.saveTrip(new Trips(driverIDBox.getItems().get(selectedIndex).toString(),
+            String randomID = UUID.randomUUID().toString().substring(0, 7);
+            admin.saveTrip(new Trips(randomID, driverIDBox.getItems().get(selectedIndex).toString(),
                     driverBox.getValue().toString(), sourceField.getText(), destinationField.getText(),
                     timeField.getText(), date.getText(), stopsField.getText(), typeBox.getValue().toString(),
                     vehicleBox.getValue().toString(), currencyBox.getValue().toString() + costField.getText())
@@ -409,6 +423,8 @@ public class ManagerScene {
             destinationField.clear();
             driverBox.getItems().clear();
             stateLabel.setText("");
+            info.setContentText("Trip saved");
+            info.show();
 
         });
         // -------------------------------------------------------------------------------------------------------------
@@ -453,25 +469,33 @@ public class ManagerScene {
     public void fillTables(TableView vehiclesTable, TableView driversTable, TableView tripsTable) {
         ArrayList<String> driverNumbersList = admin.driversNumbers();
         ArrayList<Account> driverList = admin.listDrivers("All");
+        ArrayList<Trips> tripsArrayList = admin.listTrips();
         int listIndex = 0;
         int listRows = driverNumbersList.size() / 2;
         String[][] driversNumbersArray = new String[listRows][2];
         ObservableList<Account> observableList = FXCollections.observableArrayList();
-
+        ObservableList<Trips> tripsObservableList = FXCollections.observableArrayList();
+        // -------------------------------------------------------------------------------
         for (int i = 0; i < listRows; i++) {
             for (int j = 0; j < 2; j++) {
                 driversNumbersArray[i][j] = driverNumbersList.get(listIndex++);
             }
         }
+
         for (int i = 0; i < listRows; i++) {
             vehiclesTable.getItems().add(driversNumbersArray[i]);
         }
-
+        // -------------------------------------------------------------------------------
         for (int i = 0; i < driverList.size(); i++) {
             observableList.add(driverList.get(i));
         }
         driversTable.setItems(observableList);
+        // -------------------------------------------------------------------------------
 
+        for (int i = 0; i < tripsArrayList.size(); i++) {
+            tripsObservableList.add(tripsArrayList.get(i));
+        }
+        tripsTable.setItems(tripsObservableList);
 
     }
 

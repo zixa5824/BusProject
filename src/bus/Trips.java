@@ -7,9 +7,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Trips {
-    private String driverAccountID, driverName, source, destination, departTime, date, numberOfStops, type, vehicle, price;
+    private String tripID, driverAccountID, driverName, source, destination, departTime, date, numberOfStops, type, vehicle, price;
 
-    public Trips(String driverAccountID, String driverName, String source, String destination, String departTime, String date, String numberOfStops, String type, String vehicle, String price) {
+    public Trips(String tripID, String driverAccountID, String driverName, String source, String destination, String departTime, String date, String numberOfStops, String type, String vehicle, String price) {
+        this.tripID = tripID;
         this.driverAccountID = driverAccountID;
         this.driverName = driverName;
         this.source = source;
@@ -97,5 +98,9 @@ public class Trips {
 
     public String getDriverName() {
         return driverName;
+    }
+
+    public String getTripID() {
+        return tripID;
     }
 }
