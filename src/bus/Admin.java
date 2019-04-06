@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class Admin implements AdminActions {
 
@@ -39,8 +40,8 @@ public class Admin implements AdminActions {
                 type = actualFileScanner.next();
                 if (profession.equals("Driver")) {
 
-                   if (type.equals(vehicle) || vehicle.equals("All"))
-                       driverList.add(new Account(accountID, firstName, lastName, type));
+                    if (type.equals(vehicle) || vehicle.equals("All"))
+                        driverList.add(new Account(accountID, firstName, lastName, type));
                 }
             }
             return driverList;
@@ -86,9 +87,10 @@ public class Admin implements AdminActions {
 
     @Override
     public void saveTrip(Trips trip) {
+        String randomID = UUID.randomUUID().toString().substring(0, 7);
         try {
             FileWriter fileWriter = new FileWriter("src//trips.txt", true);
-            fileWriter.write("\n" + trip.getDriverAccountID() + " " + trip.getSource() + " " +
+            fileWriter.write("\n" + randomID + " " + trip.getDriverAccountID() + " " + trip.getSource() + " " +
                     trip.getDestination() + " " + trip.getDepartTime() + " " + trip.getDate() + " " + trip.getNumberOfStops() + " " +
                     trip.getType() + " " + trip.getVehicle() + " " + trip.getPrice());
             fileWriter.close();
