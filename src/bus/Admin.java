@@ -136,6 +136,8 @@ public class Admin implements AdminActions {
             }
             bufferedReader.close();
             bufferedWriter.close();
+            tripFile.delete();
+            tempFile.renameTo(new File("src//trips.txt"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
