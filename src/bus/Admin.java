@@ -4,6 +4,8 @@ package bus;
 // The logic class for manager scene
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -119,12 +121,12 @@ public class Admin implements AdminActions {
     // -----------------------------------------------------------------------------------------------------------------
     @Override
     public void deleteTrip(Trips trip) {
-        File temp = new File("src//temp.txt");
-        File tripsFile = new File("src//trips.txt");
+        File tripFile = new File("src//trips.txt");
+        File tempFile = new File("src//temp.txt");
         String tripID = trip.getTripID();
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(tripsFile));
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(temp));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(tripFile));
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(tempFile));
             String currentLine;
             currentLine = bufferedReader.readLine();
             while (currentLine != null) {
@@ -134,8 +136,6 @@ public class Admin implements AdminActions {
             }
             bufferedReader.close();
             bufferedWriter.close();
-            tripsFile.delete();
-            temp.renameTo(new File("src//trips.txt"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
