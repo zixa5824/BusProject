@@ -3,10 +3,7 @@ package bus;
 
 // The logic class for manager scene
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -25,12 +22,12 @@ public class Admin implements AdminActions {
             String[] scanned = new String[12];
             actualFileScanner.nextLine();
             actualFileScanner.nextLine(); // skip first 2 lines in the file
-            while (actualFileScanner.hasNext()){
+            while (actualFileScanner.hasNext()) {
                 scanned = actualFileScanner.nextLine().split(" ");
-                tripList.add(new Trips(scanned[0],scanned[1],scanned[2]+" "+scanned[3]
-                        ,scanned[4],scanned[5],
-                        scanned[6],scanned[7],scanned[8],
-                        scanned[9],scanned[10],scanned[11]));
+                tripList.add(new Trips(scanned[0], scanned[1], scanned[2] + " " + scanned[3]
+                        , scanned[4], scanned[5],
+                        scanned[6], scanned[7], scanned[8],
+                        scanned[9], scanned[10], scanned[11]));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -109,11 +106,38 @@ public class Admin implements AdminActions {
     public void saveTrip(Trips trip) {
         try {
             FileWriter fileWriter = new FileWriter("src//trips.txt", true);
-            fileWriter.write("\n" + trip.getTripID() + " " + trip.getDriverAccountID() + " " + trip.getDriverName()
+            fileWriter.write("\r\n" + trip.getTripID() + " " + trip.getDriverAccountID() + " " + trip.getDriverName()
                     + " " + trip.getSource() + " " + trip.getDestination() + " " + trip.getDepartTime() + " " +
                     trip.getDate() + " " + trip.getNumberOfStops() + " " + trip.getType() + " " +
                     trip.getVehicle() + " " + trip.getPrice());
             fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    @Override
+    public void deleteTrip(Trips trip) {
+        File temp = new File("src//temp.txt");
+        File tripsFile = new File("src//trips.txt");
+        String tripID = trip.getTripID();
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(tripsFile));
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(temp));
+            String currentLine;
+            currentLine = bufferedReader.readLine();
+            while (currentLine != null) {
+                if (!currentLine.contains(tripID))
+                    bufferedWriter.write(currentLine + "\r\n");
+                currentLine = bufferedReader.readLine();
+            }
+            bufferedReader.close();
+            bufferedWriter.close();
+            tripsFile.delete();
+            temp.renameTo(new File("src//trips.txt"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

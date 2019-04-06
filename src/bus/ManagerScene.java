@@ -321,7 +321,6 @@ public class ManagerScene {
         allTripsTable.setLayoutY(66);
         allTripsTable.setPrefWidth(639);
         allTripsTable.setPrefHeight(313);
-        allTripsTable.setEditable(false);
         allTripsTable.getColumns().addAll(driverNameColumn, sourceColumn, destinationColumn, timeColumn, dateColumn,
                 stopsColumn, typeColumn, vehicleTypeColumn, priceColumn, tripIDColumn);
         allTripsTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
@@ -425,6 +424,7 @@ public class ManagerScene {
             stateLabel.setText("");
             info.setContentText("Trip saved");
             info.show();
+            fillTables(vehiclesTable, driversTable, allTripsTable);
 
         });
         // -------------------------------------------------------------------------------------------------------------
@@ -458,6 +458,15 @@ public class ManagerScene {
         vehicleBox.setOnMouseClicked(event -> {
             driverBox.getItems().clear();
             stateLabel.setText("Listing..");
+        });
+        // -------------------------------------------------------------------------------------------------------------
+        deleteButton.setOnAction(event -> {
+            int selectedTableIndex = allTripsTable.getSelectionModel().getSelectedIndex();
+            Trips selectedTrip = (Trips) allTripsTable.getItems().get(selectedTableIndex);
+            allTripsTable.getSelectionModel().clearSelection(selectedTableIndex);
+            admin.deleteTrip(selectedTrip);
+            fillTables(vehiclesTable, driversTable, allTripsTable);
+
         });
         // End of events -----------------------------------------------------------------------------------------------
     }
