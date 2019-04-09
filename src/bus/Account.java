@@ -66,6 +66,7 @@ public class Account {
                 }
                 previous = next;
             }
+            actualFileScanner.close();
             fileReader.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

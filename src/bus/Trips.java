@@ -48,6 +48,7 @@ public class Trips {
                     }
                 }
             }
+            actualFileScanner.close();
             fileReader.close();
             return tripDetails;
         } catch (FileNotFoundException e) {

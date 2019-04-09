@@ -4,12 +4,8 @@ package bus;
 // The logic class for manager scene
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
-import java.util.UUID;
 
 public class Admin implements AdminActions {
 
@@ -62,9 +58,13 @@ public class Admin implements AdminActions {
                         driverList.add(new Account(accountID, firstName, lastName, type));
                 }
             }
+            actualFileScanner.close();
+            fileReader.close();
             return driverList;
 
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -93,7 +93,11 @@ public class Admin implements AdminActions {
                     limoCount++;
                 }
             }
+            fileReader.close();
+            actualFileScanner.close();
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         vehicleDriverList.add("Bus");
@@ -122,28 +126,68 @@ public class Admin implements AdminActions {
     @Override
     public void deleteTrip(Trips trip) {
         File tripFile = new File("src//trips.txt");
-        File tempFile = new File("src//temp.txt");
         String tripID = trip.getTripID();
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(tripFile));
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(tempFile));
+            Scanner actualFileScanner = new Scanner(tripFile);
+            ArrayList<String> tripList = new ArrayList<>();
             String currentLine;
-            currentLine = bufferedReader.readLine();
-            while (currentLine != null) {
-                if (!currentLine.contains(tripID))
-                    bufferedWriter.write(currentLine + "\r\n");
-                currentLine = bufferedReader.readLine();
+            while (actualFileScanner.hasNext()) {
+                currentLine = actualFileScanner.nextLine();
+                if (!currentLine.contains(tripID)) {
+                    tripList.add(currentLine);
+                }
             }
-            bufferedReader.close();
-            bufferedWriter.close();
-            tripFile.delete();
-            tempFile.renameTo(new File("src//trips.txt"));
+            FileWriter fileWriter = new FileWriter(tripFile,false);
+            for (int i = 0; i < tripList.size(); i++) {
+                if(i>0)
+                    fileWriter.write("\r\n");
+                fileWriter.write(tripList.get(i));
+            }
+            fileWriter.close();
+            actualFileScanner.close();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void saveEditedTrip(Trips oldTrip, Trips editedTrip) {
+        File tripFile = new File("src//trips.txt");
+        String tripID = oldTrip.getTripID();
+        try {
+            Scanner actualFileScanner = new Scanner(tripFile);
+            ArrayList<String> tripList = new ArrayList<>();
+            String currentLine;
+            while (actualFileScanner.hasNext()) {
+                currentLine = actualFileScanner.nextLine();
+                if (currentLine.contains(tripID)) {
+      //tripID, driverAccountID, driverName, source, destination, departTime, date, numberOfStops, type, vehicle, price;
+                    tripList.add(editedTrip.getTripID()+" "+editedTrip.getDriverAccountID()+" "+
+                            editedTrip.getDriverName()+" "+editedTrip.getSource()+" "+editedTrip.getDestination()
+                            +" "+editedTrip.getDepartTime()+" "+editedTrip.getDate()+" "+editedTrip.getNumberOfStops()
+                            +" "+editedTrip.getType()+" "+editedTrip.getVehicle()+" "+editedTrip.getPrice());
+                    continue;
+                }
+                tripList.add(currentLine);
+            }
+            FileWriter fileWriter = new FileWriter(tripFile,false);
+            for (int i = 0; i < tripList.size(); i++) {
+                fileWriter.write(tripList.get(i) + "\r\n");
+            }
+            fileWriter.close();
+            actualFileScanner.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     // -----------------------------------------------------------------------------------------------------------------
 
 

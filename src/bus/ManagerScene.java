@@ -31,7 +31,7 @@ public class ManagerScene {
         scene = new Scene(mainPane, 788, 529);
 
         Rectangle sideRect = new Rectangle(0, 0, 120, 529);
-        sideRect.setFill(Color.BLACK);
+        sideRect.setFill(Color.DARKCYAN);
 
         Button logoutButton = new Button("Logout");
         logoutButton.setLayoutX(18);
@@ -43,7 +43,7 @@ public class ManagerScene {
 
         // Contents of info pane ---------------------------------------------------------------------------------------
         Pane infoPane = new Pane();
-        infoPane.setLayoutX(119 );
+        infoPane.setLayoutX(119);
         infoPane.setLayoutY(0);
         infoPane.setPrefWidth(669);
         infoPane.setPrefHeight(529);
@@ -89,9 +89,13 @@ public class ManagerScene {
 
         // Second Table
 
-        TableColumn<Account, String> driversColumn = new TableColumn("Drivers");
-        driversColumn.setMinWidth(110);
-        driversColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        TableColumn<Account, String> driverFirstNameColumn = new TableColumn("First Name");
+        driverFirstNameColumn.setMinWidth(110);
+        driverFirstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+
+        TableColumn<Account, String> driverLastNameColumn = new TableColumn("Last Name");
+        driverLastNameColumn.setMinWidth(110);
+        driverLastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
 
         TableColumn<Account, String> vehicleColumn = new TableColumn("Vehicle");
         vehicleColumn.setMinWidth(20);
@@ -103,8 +107,8 @@ public class ManagerScene {
         driversTable.setLayoutX(315);
         driversTable.setLayoutY(207);
         driversTable.setEditable(false);
-        driversTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        driversTable.getColumns().addAll(driversColumn, vehicleColumn);
+        driversTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+        driversTable.getColumns().addAll(driverFirstNameColumn, driverLastNameColumn, vehicleColumn);
 
         infoPane.getChildren().addAll(welcomeLabel, nameLabel, vehiclesTable, driversTable);
         // -------------------------------------------------------------------------------------------------------------
@@ -252,7 +256,7 @@ public class ManagerScene {
         driverBox.setPrefWidth(149);
         driverBox.setPrefHeight(25);
 
-        // ComboBox corresponding to driverBox storing in it the account ID of the drivers
+        // ComboBox corresponding to driverBoxEdit storing in it the account ID of the drivers
         ComboBox driverIDBox = new ComboBox();
 
         Button saveButton = new Button("Save Trip");
@@ -261,10 +265,38 @@ public class ManagerScene {
         saveButton.setPrefWidth(107);
         saveButton.setPrefHeight(38);
 
+        Button saveButtonEdit = new Button("Save Edited Trip");
+        saveButtonEdit.setVisible(false);
+        saveButtonEdit.setLayoutX(431);
+        saveButtonEdit.setLayoutY(464);
+        saveButtonEdit.setPrefWidth(107);
+        saveButtonEdit.setPrefHeight(38);
+
+        Button back = new Button("Back");
+        back.setVisible(false);
+        back.setLayoutX(20);
+        back.setLayoutY(20);
+
+        Label oldDateLabel = new Label("");
+        oldDateLabel.setVisible(false);
+        oldDateLabel.setLayoutX(datePicker.getLayoutX() + 170);
+        oldDateLabel.setLayoutY(datePicker.getLayoutY());
+
+        Label oldVehicleLabel = new Label("");
+        oldVehicleLabel.setVisible(false);
+        oldVehicleLabel.setLayoutX(vehicleBox.getLayoutX() + 170);
+        oldVehicleLabel.setLayoutY(vehicleBox.getLayoutY());
+
+        Label oldDriverLabel = new Label("");
+        oldDriverLabel.setVisible(false);
+        oldDriverLabel.setLayoutX(driverBox.getLayoutX() + 170);
+        oldDriverLabel.setLayoutY(driverBox.getLayoutY());
+
         createTripPane.getChildren().addAll(
                 headLabel, sourceLabel, timeLabel, stopsLabel, costLabel, destinationLabel, dateLabel, driverLabel,
                 sourceField, timeField, stopsField, costField, destinationField, datePicker, driverBox, saveButton,
-                vehicleBox, vehicleLabel, typeLabel, typeBox, stateLabel, currencyBox
+                vehicleBox, vehicleLabel, typeLabel, typeBox, stateLabel, currencyBox, saveButtonEdit,
+                back, oldDateLabel, oldVehicleLabel, oldDriverLabel
         );
 
         // -------------------------------------------------------------------------------------------------------------
@@ -284,7 +316,7 @@ public class ManagerScene {
         Button deleteButton = new Button("Delete Trip");
         deleteButton.setLayoutX(338);
         deleteButton.setLayoutY(428);
-//tripID, driverAccountID, driverName, source, destination, departTime, date, numberOfStops, type, vehicle, price;
+//tripID, driverAccountID, driverName, source, destination, departTime, dateEdit, numberOfStops, type, vehicle, price;
         TableColumn<Trips, String> driverNameColumn = new TableColumn("Driver");
         driverNameColumn.setCellValueFactory(new PropertyValueFactory<>("driverName"));
 
@@ -329,6 +361,7 @@ public class ManagerScene {
 
         // -------------------------------------------------------------------------------------------------------------
 
+        // -------------------------------------------------------------------------------------------------------------
         Button infoButton = new Button("General Info");
         infoButton.setLayoutX(0);
         infoButton.setLayoutY(95);
@@ -390,7 +423,6 @@ public class ManagerScene {
             viewTripsButton.setBackground(new Background(new BackgroundFill(Color.PALEGOLDENROD, CornerRadii.EMPTY, Insets.EMPTY)));
         });
         // -------------------------------------------------------------------------------------------------------------
-
         saveButton.setOnAction(event -> {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             Alert info = new Alert(Alert.AlertType.INFORMATION);
@@ -421,14 +453,16 @@ public class ManagerScene {
             costField.clear();
             destinationField.clear();
             driverBox.getItems().clear();
+            vehicleBox.getSelectionModel().clearSelection();
+            currencyBox.getSelectionModel().clearSelection();
+            typeBox.getSelectionModel().clearSelection();
             stateLabel.setText("");
             info.setContentText("Trip saved");
             info.show();
-            fillTables(vehiclesTable, driversTable, allTripsTable);
+            refreshTripTable(allTripsTable);
 
         });
         // -------------------------------------------------------------------------------------------------------------
-
         driverBox.setOnMouseClicked(event -> {
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -465,9 +499,142 @@ public class ManagerScene {
             Trips selectedTrip = (Trips) allTripsTable.getItems().get(selectedTableIndex);
             allTripsTable.getSelectionModel().clearSelection(selectedTableIndex);
             admin.deleteTrip(selectedTrip);
-            fillTables(vehiclesTable, driversTable, allTripsTable);
+            refreshTripTable(allTripsTable);
+        });
+        // -------------------------------------------------------------------------------------------------------------
+        back.setOnAction(event -> {
+            viewTripsPane.setVisible(true);
+            sideRect.setVisible(true);
+            sideRect.setVisible(true);
+            logoutButton.setVisible(true);
+            saveButton.setVisible(true);
+            infoButton.setVisible(true);
+            createTripButton.setVisible(true);
+            viewTripsButton.setVisible(true);
+            oldDateLabel.setVisible(false);
+            oldVehicleLabel.setVisible(false);
+            oldDriverLabel.setVisible(false);
+            infoPane.setVisible(false);
+            createTripPane.setVisible(false);
+            saveButtonEdit.setVisible(false);
+            back.setVisible(false);
+            headLabel.setText("Creating Trip");
+
+            sourceField.clear();
+            timeField.clear();
+            stopsField.clear();
+            costField.clear();
+            destinationField.clear();
+            driverBox.getItems().clear();
+            vehicleBox.getSelectionModel().clearSelection();
+            currencyBox.getSelectionModel().clearSelection();
+            typeBox.getSelectionModel().clearSelection();
+            stateLabel.setText("");
+
+            createTripPane.setLayoutX(119);
+            createTripPane.setLayoutY(0);
+            createTripPane.setPrefWidth(669);
+            createTripPane.setPrefHeight(529);
 
         });
+        // -------------------------------------------------------------------------------------------------------------
+        editButton.setOnAction(event -> {
+            try {
+                int selectedTableIndex = allTripsTable.getSelectionModel().getSelectedIndex();
+                Trips selectedTrip = (Trips) allTripsTable.getItems().get(selectedTableIndex);
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Select trip to edit");
+                alert.show();
+                return;
+            }
+            int selectedTableIndex = allTripsTable.getSelectionModel().getSelectedIndex();
+            Trips selectedTrip = (Trips) allTripsTable.getItems().get(selectedTableIndex);
+            createTripPane.setVisible(true);
+            saveButtonEdit.setVisible(true);
+            back.setVisible(true);
+            oldDateLabel.setVisible(true);
+            oldVehicleLabel.setVisible(true);
+            oldDriverLabel.setVisible(true);
+            infoPane.setVisible(false);
+            viewTripsPane.setVisible(false);
+            sideRect.setVisible(false);
+            logoutButton.setVisible(false);
+            saveButton.setVisible(false);
+            infoButton.setVisible(false);
+            createTripButton.setVisible(false);
+            viewTripsButton.setVisible(false);
+            headLabel.setText("Editing Trip");
+
+            createTripPane.setLayoutX(0);
+            createTripPane.setLayoutY(0);
+            createTripPane.setPrefWidth(788);
+            createTripPane.setPrefHeight(529);
+
+            sourceField.setText(selectedTrip.getSource());
+            timeField.setText(selectedTrip.getDepartTime());
+            stopsField.setText(selectedTrip.getNumberOfStops());
+            destinationField.setText(selectedTrip.getDestination());
+            costField.setText(selectedTrip.getPrice().substring(3));
+            oldDateLabel.setText("Date was: " + selectedTrip.getDate());
+            oldVehicleLabel.setText("Vehicle was: " + selectedTrip.getVehicle());
+            oldDriverLabel.setText("Driver was: " + selectedTrip.getDriverName());
+
+            // To get selected currency
+            if (selectedTrip.getPrice().substring(0, 3).equals("EGP"))
+                currencyBox.getSelectionModel().select(0);
+            else
+                currencyBox.getSelectionModel().select(1);
+            //----------
+
+            typeBox.getSelectionModel().select(selectedTrip.getType());
+
+
+        });
+        // -------------------------------------------------------------------------------------------------------------
+        saveButtonEdit.setOnAction(event -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            Alert info = new Alert(Alert.AlertType.INFORMATION);
+            if (sourceField.getText().isEmpty() || timeField.getText().isEmpty() || stopsField.getText().isEmpty() ||
+                    costField.getText().isEmpty() || destinationField.getText().isEmpty() ||
+                    typeBox.getSelectionModel().isEmpty() || currencyBox.getSelectionModel().isEmpty() ||
+                    vehicleBox.getSelectionModel().isEmpty() || driverBox.getSelectionModel().isEmpty() ||
+                    date.getText().isEmpty()
+            ) {
+                alert.setContentText("Fill empty fields before saving");
+                alert.show();
+                return;
+            }
+            int selectedDriverIndex = driverBox.getSelectionModel().getSelectedIndex();
+
+            int selectedTableIndex = allTripsTable.getSelectionModel().getSelectedIndex();
+            Trips oldTrip = (Trips) allTripsTable.getItems().get(selectedTableIndex);
+
+            Trips editedTrip = new Trips(oldTrip.getTripID(), driverIDBox.getItems().get(selectedDriverIndex).toString(),
+                    driverBox.getValue().toString(), sourceField.getText(), destinationField.getText(),
+                    timeField.getText(), date.getText(), stopsField.getText(), typeBox.getValue().toString(),
+                    vehicleBox.getValue().toString(), currencyBox.getValue().toString() + costField.getText());
+
+            admin.saveEditedTrip(oldTrip, editedTrip);
+            refreshTripTable(allTripsTable);
+
+            sourceField.clear();
+            timeField.clear();
+            stopsField.clear();
+            costField.clear();
+            destinationField.clear();
+            driverBox.getItems().clear();
+            vehicleBox.getSelectionModel().clearSelection();
+            currencyBox.getSelectionModel().clearSelection();
+            typeBox.getSelectionModel().clearSelection();
+            stateLabel.setText("");
+
+            info.setContentText("Trip Edited");
+            info.show();
+            back.fire();
+
+        });
+        // -------------------------------------------------------------------------------------------------------------
         // End of events -----------------------------------------------------------------------------------------------
     }
 
@@ -506,6 +673,15 @@ public class ManagerScene {
         }
         tripsTable.setItems(tripsObservableList);
 
+    }
+
+    public void refreshTripTable(TableView tripsTable) {
+        ArrayList<Trips> tripsArrayList = admin.listTrips();
+        ObservableList<Trips> tripsObservableList = FXCollections.observableArrayList();
+        for (int i = 0; i < tripsArrayList.size(); i++) {
+            tripsObservableList.add(tripsArrayList.get(i));
+        }
+        tripsTable.setItems(tripsObservableList);
     }
 
     public void setHomeScene(Scene homeScene) {

@@ -35,6 +35,8 @@ public interface AdminActions {
 
     public void deleteTrip(Trips trip);
 
+    public void saveEditedTrip(Trips oldTrip, Trips editedTrip);
+
     /**
      * @param list * save list of drivers
      */
