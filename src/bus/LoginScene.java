@@ -143,3 +143,4 @@ public class LoginScene {
     public Scene getScene() {
         return scene;
     }
+}
