@@ -62,6 +62,11 @@ public class ClientScene {
         btnRes.setLayoutX(260);
         btnRes.setLayoutY(438);
         //----
+        Button btnDel = new Button();
+        btnDel.setText("Delete");
+        btnDel.setLayoutX(882);
+        btnDel.setLayoutY(438);
+        //----
         Button btnOut = new Button();
         btnOut.setText("Logout");
         btnOut.setLayoutX(14);
@@ -76,7 +81,7 @@ public class ClientScene {
         btnSave.setPrefWidth(70);
         btnSave.setPrefHeight(31);
         //ADD ALL BUTTONS >> LABELS >> SCROLL BARS >> TABLE VIEWS to THE PANE.
-        pane.getChildren().addAll(tableAva,tableRes,label,tripsAva,tripsRes,btnOut,btnRes,btnSave);
+        pane.getChildren().addAll(btnDel,tableAva,tableRes,label,tripsAva,tripsRes,btnOut,btnRes,btnSave);
         // End of drawing scene ----------------------------------------------------------------------------------------
 
         // Events Section ----------------------------------------------------------------------------------------------
@@ -135,44 +140,43 @@ public class ClientScene {
                 stopsColumn, typeColumn, vehicleTypeColumn, priceColumn, tripIDColumn);
         tableAva.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
        //--------------------------
+        //Table TWO
         TableColumn<Trips, String> driverNameColumn2 = new TableColumn("Driver");
-        driverNameColumn.setCellValueFactory(new PropertyValueFactory<>("driverName"));
+        driverNameColumn2.setCellValueFactory(new PropertyValueFactory<>("driverName"));
 
         TableColumn<Trips, String> sourceColumn2 = new TableColumn("Source");
-        sourceColumn.setCellValueFactory(new PropertyValueFactory<>("source"));
+        sourceColumn2.setCellValueFactory(new PropertyValueFactory<>("source"));
 
         TableColumn<Trips, String> destinationColumn2 = new TableColumn("Destination");
-        destinationColumn.setCellValueFactory(new PropertyValueFactory<>("destination"));
+        destinationColumn2.setCellValueFactory(new PropertyValueFactory<>("destination"));
 
         TableColumn<Trips, String> timeColumn2 = new TableColumn("Time");
-        timeColumn.setCellValueFactory(new PropertyValueFactory<>("departTime"));
+        timeColumn2.setCellValueFactory(new PropertyValueFactory<>("departTime"));
 
         TableColumn<Trips, String> dateColumn2 = new TableColumn("Date");
-        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        dateColumn2.setCellValueFactory(new PropertyValueFactory<>("date"));
 
         TableColumn<Trips, String> stopsColumn2 = new TableColumn("Stops");
-        stopsColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfStops"));
+        stopsColumn2.setCellValueFactory(new PropertyValueFactory<>("numberOfStops"));
 
         TableColumn<Trips, String> typeColumn2 = new TableColumn("Type");
-        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        typeColumn2.setCellValueFactory(new PropertyValueFactory<>("type"));
 
         TableColumn<Trips, String> vehicleTypeColumn2 = new TableColumn("Vehicle");
-        vehicleTypeColumn.setCellValueFactory(new PropertyValueFactory<>("vehicle"));
+        vehicleTypeColumn2.setCellValueFactory(new PropertyValueFactory<>("vehicle"));
 
         TableColumn<Trips, String> priceColumn2 = new TableColumn("Price");
-        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        priceColumn2.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         TableColumn<Trips, String> tripIDColumn2 = new TableColumn();
-        tripIDColumn.setCellValueFactory(new PropertyValueFactory<>("tripID"));
-        tripIDColumn.setVisible(false);
-
+        tripIDColumn2.setCellValueFactory(new PropertyValueFactory<>("tripID"));
+        tripIDColumn2.setVisible(false);
 
         tableRes.getColumns().addAll(driverNameColumn2, sourceColumn2, destinationColumn2, timeColumn2, dateColumn2,
                 stopsColumn2, typeColumn2, vehicleTypeColumn2, priceColumn2, tripIDColumn2);
         tableRes.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
-
         //RESERVE TRIP
-        ArrayList<Trips> selectedTrips = new ArrayList<>();
+        /*ArrayList<Trips> selectedTrips = new ArrayList<>();
         ObservableList<Trips> addTrips = FXCollections.observableArrayList();
         btnRes.setOnAction(e-> {
             ObservableList<Trips> hideTrips, showTrips;
@@ -180,8 +184,24 @@ public class ClientScene {
             hideTrips = tableAva.getSelectionModel().getSelectedItems();
             selectedTrips.add(hideTrips.get(0));
             hideTrips.forEach(showTrips::remove);
+            tableRes.getItems().clear();
             for(int i = 0;i < selectedTrips.size(); i++) addTrips.add(selectedTrips.get(i));
             tableRes.setItems(addTrips);
+        });*/
+        btnRes.setOnAction(e-> {
+            ObservableList<Trips> hideTrips, showTrips;
+            showTrips = tableAva.getItems();
+            hideTrips = tableAva.getSelectionModel().getSelectedItems();
+            tableRes.getItems().add(hideTrips);
+            hideTrips.forEach(showTrips::remove);
+        });
+        //DELETE TRIP
+        btnDel.setOnAction(e-> {
+            ObservableList<Trips> hideTrips2, showTrips2;
+            showTrips2 = tableRes.getItems();
+            hideTrips2 = tableRes.getSelectionModel().getSelectedItems();
+            tableAva.getItems().add(hideTrips2);
+            hideTrips2.forEach(showTrips2::remove);
         });
 
     }
