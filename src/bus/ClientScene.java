@@ -4,11 +4,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import jdk.nashorn.internal.objects.annotations.Property;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class ClientScene {
@@ -72,7 +75,7 @@ public class ClientScene {
         btnSave.setLayoutY(496);
         btnSave.setPrefWidth(70);
         btnSave.setPrefHeight(31);
-        //ADD ALL BUTTONS >> LABELS >> SCROLL BARS >> LIST VIEWS to THE PANE.
+        //ADD ALL BUTTONS >> LABELS >> SCROLL BARS >> TABLE VIEWS to THE PANE.
         pane.getChildren().addAll(tableAva,tableRes,label,tripsAva,tripsRes,btnOut,btnRes,btnSave);
         // End of drawing scene ----------------------------------------------------------------------------------------
 
@@ -85,7 +88,7 @@ public class ClientScene {
         // End of logout event------------------------------------------------------------------------------------------
 
         // End of events -----------------------------------------------------------------------------------------------
-        //Show trips for the client in list view ---- IN PROGRESS
+        //Show trips for the client in TABLE view ---- IN PROGRESS
         ObservableList<Trips> tripsObservableList = FXCollections.observableArrayList();
         Client client = new Client();
         ArrayList<Trips> trips = client.listTrips();
@@ -93,6 +96,7 @@ public class ClientScene {
         {
             tripsObservableList.add(trips.get(i));
         }
+        //FIRST TABLE
         //tripID, driverAccountID, driverName, source, destination, departTime, date, numberOfStops, type, vehicle, price;
         TableColumn<Trips, String> driverNameColumn = new TableColumn("Driver");
         driverNameColumn.setCellValueFactory(new PropertyValueFactory<>("driverName"));
@@ -130,6 +134,55 @@ public class ClientScene {
         tableAva.getColumns().addAll(driverNameColumn, sourceColumn, destinationColumn, timeColumn, dateColumn,
                 stopsColumn, typeColumn, vehicleTypeColumn, priceColumn, tripIDColumn);
         tableAva.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+       //--------------------------
+        TableColumn<Trips, String> driverNameColumn2 = new TableColumn("Driver");
+        driverNameColumn.setCellValueFactory(new PropertyValueFactory<>("driverName"));
+
+        TableColumn<Trips, String> sourceColumn2 = new TableColumn("Source");
+        sourceColumn.setCellValueFactory(new PropertyValueFactory<>("source"));
+
+        TableColumn<Trips, String> destinationColumn2 = new TableColumn("Destination");
+        destinationColumn.setCellValueFactory(new PropertyValueFactory<>("destination"));
+
+        TableColumn<Trips, String> timeColumn2 = new TableColumn("Time");
+        timeColumn.setCellValueFactory(new PropertyValueFactory<>("departTime"));
+
+        TableColumn<Trips, String> dateColumn2 = new TableColumn("Date");
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+        TableColumn<Trips, String> stopsColumn2 = new TableColumn("Stops");
+        stopsColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfStops"));
+
+        TableColumn<Trips, String> typeColumn2 = new TableColumn("Type");
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+
+        TableColumn<Trips, String> vehicleTypeColumn2 = new TableColumn("Vehicle");
+        vehicleTypeColumn.setCellValueFactory(new PropertyValueFactory<>("vehicle"));
+
+        TableColumn<Trips, String> priceColumn2 = new TableColumn("Price");
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        TableColumn<Trips, String> tripIDColumn2 = new TableColumn();
+        tripIDColumn.setCellValueFactory(new PropertyValueFactory<>("tripID"));
+        tripIDColumn.setVisible(false);
+
+
+        tableRes.getColumns().addAll(driverNameColumn2, sourceColumn2, destinationColumn2, timeColumn2, dateColumn2,
+                stopsColumn2, typeColumn2, vehicleTypeColumn2, priceColumn2, tripIDColumn2);
+        tableRes.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+
+        //RESERVE TRIP
+        ArrayList<Trips> selectedTrips = new ArrayList<>();
+        ObservableList<Trips> addTrips = FXCollections.observableArrayList();
+        btnRes.setOnAction(e-> {
+            ObservableList<Trips> hideTrips, showTrips;
+            showTrips = tableAva.getItems();
+            hideTrips = tableAva.getSelectionModel().getSelectedItems();
+            selectedTrips.add(hideTrips.get(0));
+            hideTrips.forEach(showTrips::remove);
+            for(int i = 0;i < selectedTrips.size(); i++) addTrips.add(selectedTrips.get(i));
+            tableRes.setItems(addTrips);
+        });
 
     }
 
