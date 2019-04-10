@@ -18,8 +18,9 @@ public class ClientScene {
 
     private Scene scene;
     private Scene homeScene;
+    private boolean save = false;
 
-    public ClientScene(Stage stage, Account account) {
+    public ClientScene(Stage stage , Account account) {
         Pane pane = new Pane();
         //client scene
         scene = new Scene(pane, 1222, 541);
@@ -81,14 +82,18 @@ public class ClientScene {
         btnSave.setPrefWidth(70);
         btnSave.setPrefHeight(31);
         //ADD ALL BUTTONS >> LABELS >> SCROLL BARS >> TABLE VIEWS to THE PANE.
-        pane.getChildren().addAll(btnDel, tableAva, tableRes, label, tripsAva, tripsRes, btnOut, btnRes, btnSave);
+        pane.getChildren().addAll(btnDel,tableAva,tableRes,label,tripsAva,tripsRes,btnOut,btnRes,btnSave);
         // End of drawing scene ----------------------------------------------------------------------------------------
 
         // Events Section ----------------------------------------------------------------------------------------------
 
         // Logout Button Event -----------------------------------------------------------------------------------------
         btnOut.setOnAction(e -> {
-            stage.setScene(homeScene);
+            if(!save){
+                AlertBox.saveDisplay("Save","Are you sure you want to logout without saving?", homeScene, stage);
+            }
+            else
+                stage.setScene(homeScene);
         });
         // End of logout event------------------------------------------------------------------------------------------
 
@@ -180,42 +185,52 @@ public class ClientScene {
 
         //RESERVE TRIP
         btnRes.setOnAction(e -> {
-            Trips selectedTrip = (Trips) tableAva.getItems().get(tableAva.getSelectionModel().getSelectedIndex());
-            reservedTrips.add(0, selectedTrip);
-            trips.remove(selectedTrip);
+            try
+            {
+                Trips selectedTrip = (Trips) tableAva.getItems().get(tableAva.getSelectionModel().getSelectedIndex());
+                reservedTrips.add(0, selectedTrip);
+                trips.remove(selectedTrip);
 
-            // Clear the reserved trips observable list and refill with the array list with newly added reserved trip
-            resObservable.clear();
-            for (Trips trip : reservedTrips) {
-                resObservable.add(trip);
-            }
-            tableRes.setItems(resObservable);
+                // Clear the reserved trips observable list and refill with the array list with newly added reserved trip
+                resObservable.clear();
+                for (Trips trip : reservedTrips) {
+                    resObservable.add(trip);
+                }
+                tableRes.setItems(resObservable);
 
-            // Remove the reserved trip from the trips table
-            tripsObservableList.clear();
-            for (Trips trip : trips) {
-                tripsObservableList.add(trip);
+                // Remove the reserved trip from the trips table
+                tripsObservableList.clear();
+                for (Trips trip : trips) {
+                    tripsObservableList.add(trip);
+                }
+                tableAva.setItems(tripsObservableList);
+            }catch(ArrayIndexOutOfBoundsException i){
+                AlertBox.display("ERROR","Please make sure to select the trip to reserve");
             }
-            tableAva.setItems(tripsObservableList);
         });
         //DELETE TRIP
         btnDel.setOnAction(e -> {
-            Trips selectedReservedTrip = (Trips) tableRes.getItems().get(tableRes.getSelectionModel().getSelectedIndex());
-            reservedTrips.remove(selectedReservedTrip);
-            trips.add(0, selectedReservedTrip);
+                try
+                {
+                    Trips selectedReservedTrip = (Trips) tableRes.getItems().get(tableRes.getSelectionModel().getSelectedIndex());
+                    reservedTrips.remove(selectedReservedTrip);
+                    trips.add(0, selectedReservedTrip);
 
 
-            resObservable.clear();
-            for (Trips trip : reservedTrips) {
-                resObservable.add(trip);
-            }
-            tableRes.setItems(resObservable);
+                    resObservable.clear();
+                    for (Trips trip : reservedTrips) {
+                        resObservable.add(trip);
+                    }
+                    tableRes.setItems(resObservable);
 
-            tripsObservableList.clear();
-            for (Trips trip : trips) {
-                tripsObservableList.add(trip);
-            }
-            tableAva.setItems(tripsObservableList);
+                    tripsObservableList.clear();
+                    for (Trips trip : trips) {
+                        tripsObservableList.add(trip);
+                    }
+                    tableAva.setItems(tripsObservableList);
+                }catch (ArrayIndexOutOfBoundsException i){
+                    AlertBox.display("ERROR","Please make sure to select the trip to delete");
+                }
         });
 
     }

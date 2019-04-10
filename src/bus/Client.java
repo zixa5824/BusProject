@@ -29,4 +29,9 @@ public class Client implements ClientActions{
         }
         return tripList;
     }
+
+    @Override
+    public void saveChanges(Trips[] tripAddToFile) {
+
+    }
 }
