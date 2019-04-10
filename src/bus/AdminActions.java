@@ -34,7 +34,6 @@ public interface AdminActions {
     public void saveTrip(Trips trip);
 
     public void deleteTrip(Trips trip);
-
     public void saveEditedTrip(Trips oldTrip, Trips editedTrip);
 
     /**

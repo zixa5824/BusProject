@@ -97,10 +97,17 @@ public class LoginScene {
 
             username = usernameField.getText().toLowerCase();
             password = passwordField.getText().toLowerCase();
-
             if (clientButton.isSelected()) {
                 if (account.checkAccount(username, password, "Client")) {
+                    // Account is correct then make client scene class and give it the stage and logic account
+                    ClientScene clientScene = new ClientScene(stage, account);
+                    clientScene.setHomeScene(this.scene);
+                    stage.setScene(clientScene.getScene());
                     System.out.println("Welcome Client");
+                    // Clear the text fields after the user has logged in
+                    usernameField.setText("");
+                    passwordField.setText("");
+                    // ------------------------------------------------------------------------------
                 }
             } else if (driverButton.isSelected()) {
                 if (account.checkAccount(username, password, "Driver")) {
@@ -136,4 +143,3 @@ public class LoginScene {
     public Scene getScene() {
         return scene;
     }
-}
