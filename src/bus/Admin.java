@@ -77,7 +77,7 @@ public class Admin implements AdminActions {
     // Method returns the vehicles with number of drivers for the vehicle (Used in manager scene)
     @Override
     public ArrayList<String> driversNumbers() {
-        int busCount = 0, limoCount = 0;
+        int busCount = 0, limoCount = 0, miniCount = 0;
         String next;
         ArrayList<String> vehicleDriverList = new ArrayList<>();
 
@@ -91,6 +91,8 @@ public class Admin implements AdminActions {
                     busCount++;
                 } else if (next.equals("Limousine")) {
                     limoCount++;
+                } else if (next.equals("Minibus")) {
+                    miniCount++;
                 }
             }
             fileReader.close();
@@ -104,6 +106,8 @@ public class Admin implements AdminActions {
         vehicleDriverList.add(Integer.toString(busCount));
         vehicleDriverList.add("Limousine");
         vehicleDriverList.add(Integer.toString(limoCount));
+        vehicleDriverList.add("Minibus");
+        vehicleDriverList.add(Integer.toString(miniCount));
         return vehicleDriverList;
     }
 
@@ -137,9 +141,9 @@ public class Admin implements AdminActions {
                     tripList.add(currentLine);
                 }
             }
-            FileWriter fileWriter = new FileWriter(tripFile,false);
+            FileWriter fileWriter = new FileWriter(tripFile, false);
             for (int i = 0; i < tripList.size(); i++) {
-                if(i>0)
+                if (i > 0)
                     fileWriter.write("\r\n");
                 fileWriter.write(tripList.get(i));
             }
@@ -164,16 +168,16 @@ public class Admin implements AdminActions {
             while (actualFileScanner.hasNext()) {
                 currentLine = actualFileScanner.nextLine();
                 if (currentLine.contains(tripID)) {
-      //tripID, driverAccountID, driverName, source, destination, departTime, date, numberOfStops, type, vehicle, price;
-                    tripList.add(editedTrip.getTripID()+" "+editedTrip.getDriverAccountID()+" "+
-                            editedTrip.getDriverName()+" "+editedTrip.getSource()+" "+editedTrip.getDestination()
-                            +" "+editedTrip.getDepartTime()+" "+editedTrip.getDate()+" "+editedTrip.getNumberOfStops()
-                            +" "+editedTrip.getType()+" "+editedTrip.getVehicle()+" "+editedTrip.getPrice());
+                    //tripID, driverAccountID, driverName, source, destination, departTime, date, numberOfStops, type, vehicle, price;
+                    tripList.add(editedTrip.getTripID() + " " + editedTrip.getDriverAccountID() + " " +
+                            editedTrip.getDriverName() + " " + editedTrip.getSource() + " " + editedTrip.getDestination()
+                            + " " + editedTrip.getDepartTime() + " " + editedTrip.getDate() + " " + editedTrip.getNumberOfStops()
+                            + " " + editedTrip.getType() + " " + editedTrip.getVehicle() + " " + editedTrip.getPrice());
                     continue;
                 }
                 tripList.add(currentLine);
             }
-            FileWriter fileWriter = new FileWriter(tripFile,false);
+            FileWriter fileWriter = new FileWriter(tripFile, false);
             for (int i = 0; i < tripList.size(); i++) {
                 fileWriter.write(tripList.get(i) + "\r\n");
             }

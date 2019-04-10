@@ -83,22 +83,19 @@ public class ManagerScene {
         vehiclesTable.setLayoutX(84);
         vehiclesTable.setLayoutY(207);
         vehiclesTable.setEditable(false);
-        vehiclesTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        vehiclesTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
         vehiclesTable.getColumns().addAll(vehiclesColumn, numberOfDriversColumn);
 
 
         // Second Table
 
         TableColumn<Account, String> driverFirstNameColumn = new TableColumn("First Name");
-        driverFirstNameColumn.setMinWidth(110);
         driverFirstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
 
         TableColumn<Account, String> driverLastNameColumn = new TableColumn("Last Name");
-        driverLastNameColumn.setMinWidth(110);
         driverLastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
 
         TableColumn<Account, String> vehicleColumn = new TableColumn("Vehicle");
-        vehicleColumn.setMinWidth(20);
         vehicleColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
 
         TableView driversTable = new TableView();
@@ -229,7 +226,7 @@ public class ManagerScene {
         datePicker.setPrefHeight(25);
 
         ComboBox vehicleBox = new ComboBox();
-        vehicleBox.getItems().addAll("Bus", "Limousine");
+        vehicleBox.getItems().addAll("Bus", "Limousine", "Minibus");
         vehicleBox.setLayoutX(431);
         vehicleBox.setLayoutY(317);
         vehicleBox.setPrefWidth(149);
@@ -491,7 +488,7 @@ public class ManagerScene {
 
         vehicleBox.setOnMouseClicked(event -> {
             driverBox.getItems().clear();
-            stateLabel.setText("Listing..");
+            stateLabel.setText("");
         });
         // -------------------------------------------------------------------------------------------------------------
         deleteButton.setOnAction(event -> {

@@ -37,44 +37,31 @@ public class DriverScene {
         namePlaceLabel.setPrefWidth(69);
         namePlaceLabel.setPrefHeight(23);
         namePlaceLabel.setLayoutX(250);
-        namePlaceLabel.setLayoutY(103);
+        namePlaceLabel.setLayoutY(130);
         namePlaceLabel.setFont(font);
 
         Label actualNameLabel = new Label(account.getFirstName() + " " + account.getLastName());
         actualNameLabel.setPrefWidth(165);
         actualNameLabel.setPrefHeight(30);
         actualNameLabel.setLayoutX(319);
-        actualNameLabel.setLayoutY(100);
+        actualNameLabel.setLayoutY(125);
         actualNameLabel.setFont(font);
         actualNameLabel.setAlignment(Pos.CENTER);
 
-        Label salaryPlaceLabel = new Label("Salary:");
-        salaryPlaceLabel.setPrefWidth(69);
-        salaryPlaceLabel.setPrefHeight(23);
-        salaryPlaceLabel.setLayoutX(250);
-        salaryPlaceLabel.setLayoutY(156);
-        salaryPlaceLabel.setFont(font);
 
-        Label actualSalaryLabel = new Label();
-        actualSalaryLabel.setPrefWidth(165);
-        actualSalaryLabel.setPrefHeight(30);
-        actualSalaryLabel.setLayoutX(319);
-        actualSalaryLabel.setLayoutY(154);
-        actualSalaryLabel.setFont(font);
-        actualSalaryLabel.setAlignment(Pos.CENTER);
 
         Label vehiclePlaceLabel = new Label("Vehicle:");
         vehiclePlaceLabel.setPrefWidth(69);
         vehiclePlaceLabel.setPrefHeight(23);
         vehiclePlaceLabel.setLayoutX(250);
-        vehiclePlaceLabel.setLayoutY(214);
+        vehiclePlaceLabel.setLayoutY(200);
         vehiclePlaceLabel.setFont(font);
 
-        Label actualVehicleLabel = new Label("Bus");
+        Label actualVehicleLabel = new Label(account.getType());
         actualVehicleLabel.setPrefWidth(165);
         actualVehicleLabel.setPrefHeight(30);
         actualVehicleLabel.setLayoutX(319);
-        actualVehicleLabel.setLayoutY(212);
+        actualVehicleLabel.setLayoutY(195);
         actualVehicleLabel.setAlignment(Pos.CENTER);
         actualVehicleLabel.setFont(font);
 
@@ -136,7 +123,7 @@ public class DriverScene {
         logoutButton.setLayoutX(34);
         logoutButton.setLayoutY(44);
 
-        pane.getChildren().addAll(welcomeLabel, namePlaceLabel, actualNameLabel, salaryPlaceLabel, actualSalaryLabel);
+        pane.getChildren().addAll(welcomeLabel, namePlaceLabel, actualNameLabel);
         pane.getChildren().addAll(vehiclePlaceLabel, actualVehicleLabel, tripsTable, logoutButton);
         // End of drawing scene ----------------------------------------------------------------------------------------
 

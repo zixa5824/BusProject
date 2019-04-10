@@ -46,7 +46,8 @@ public class Account {
                             accountID = previous;
                             firstName = actualFileScanner.next();
                             lastName = actualFileScanner.next();
-                            type = actualFileScanner.next();
+                            if(type.equals("Driver"))
+                                this.type = actualFileScanner.next();
                             fileReader.close();
                             return true;
                         } else {
