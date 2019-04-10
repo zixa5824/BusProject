@@ -19,7 +19,7 @@ public class ClientScene {
     private Scene scene;
     private Scene homeScene;
 
-    public ClientScene(Stage stage , Account account) {
+    public ClientScene(Stage stage, Account account) {
         Pane pane = new Pane();
         //client scene
         scene = new Scene(pane, 1222, 541);
@@ -81,7 +81,7 @@ public class ClientScene {
         btnSave.setPrefWidth(70);
         btnSave.setPrefHeight(31);
         //ADD ALL BUTTONS >> LABELS >> SCROLL BARS >> TABLE VIEWS to THE PANE.
-        pane.getChildren().addAll(btnDel,tableAva,tableRes,label,tripsAva,tripsRes,btnOut,btnRes,btnSave);
+        pane.getChildren().addAll(btnDel, tableAva, tableRes, label, tripsAva, tripsRes, btnOut, btnRes, btnSave);
         // End of drawing scene ----------------------------------------------------------------------------------------
 
         // Events Section ----------------------------------------------------------------------------------------------
@@ -95,10 +95,12 @@ public class ClientScene {
         // End of events -----------------------------------------------------------------------------------------------
         //Show trips for the client in TABLE view ---- IN PROGRESS
         ObservableList<Trips> tripsObservableList = FXCollections.observableArrayList();
+        ObservableList<Trips> resObservable = FXCollections.observableArrayList();
         Client client = new Client();
         ArrayList<Trips> trips = client.listTrips();
-        for(int i = 0; i <trips.size(); i++)
-        {
+        ArrayList<Trips> reservedTrips = new ArrayList<>();
+
+        for (int i = 0; i < trips.size(); i++) {
             tripsObservableList.add(trips.get(i));
         }
         //FIRST TABLE
@@ -139,7 +141,7 @@ public class ClientScene {
         tableAva.getColumns().addAll(driverNameColumn, sourceColumn, destinationColumn, timeColumn, dateColumn,
                 stopsColumn, typeColumn, vehicleTypeColumn, priceColumn, tripIDColumn);
         tableAva.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
-       //--------------------------
+        //--------------------------
         //Table TWO
         TableColumn<Trips, String> driverNameColumn2 = new TableColumn("Driver");
         driverNameColumn2.setCellValueFactory(new PropertyValueFactory<>("driverName"));
@@ -175,33 +177,45 @@ public class ClientScene {
         tableRes.getColumns().addAll(driverNameColumn2, sourceColumn2, destinationColumn2, timeColumn2, dateColumn2,
                 stopsColumn2, typeColumn2, vehicleTypeColumn2, priceColumn2, tripIDColumn2);
         tableRes.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+
         //RESERVE TRIP
-        /*ArrayList<Trips> selectedTrips = new ArrayList<>();
-        ObservableList<Trips> addTrips = FXCollections.observableArrayList();
-        btnRes.setOnAction(e-> {
-            ObservableList<Trips> hideTrips, showTrips;
-            showTrips = tableAva.getItems();
-            hideTrips = tableAva.getSelectionModel().getSelectedItems();
-            selectedTrips.add(hideTrips.get(0));
-            hideTrips.forEach(showTrips::remove);
-            tableRes.getItems().clear();
-            for(int i = 0;i < selectedTrips.size(); i++) addTrips.add(selectedTrips.get(i));
-            tableRes.setItems(addTrips);
-        });*/
-        btnRes.setOnAction(e-> {
-            ObservableList<Trips> hideTrips, showTrips;
-            showTrips = tableAva.getItems();
-            hideTrips = tableAva.getSelectionModel().getSelectedItems();
-            tableRes.getItems().add(hideTrips);
-            hideTrips.forEach(showTrips::remove);
+        btnRes.setOnAction(e -> {
+            Trips selectedTrip = (Trips) tableAva.getItems().get(tableAva.getSelectionModel().getSelectedIndex());
+            reservedTrips.add(0, selectedTrip);
+            trips.remove(selectedTrip);
+
+            // Clear the reserved trips observable list and refill with the array list with newly added reserved trip
+            resObservable.clear();
+            for (Trips trip : reservedTrips) {
+                resObservable.add(trip);
+            }
+            tableRes.setItems(resObservable);
+
+            // Remove the reserved trip from the trips table
+            tripsObservableList.clear();
+            for (Trips trip : trips) {
+                tripsObservableList.add(trip);
+            }
+            tableAva.setItems(tripsObservableList);
         });
         //DELETE TRIP
-        btnDel.setOnAction(e-> {
-            ObservableList<Trips> hideTrips2, showTrips2;
-            showTrips2 = tableRes.getItems();
-            hideTrips2 = tableRes.getSelectionModel().getSelectedItems();
-            tableAva.getItems().add(hideTrips2);
-            hideTrips2.forEach(showTrips2::remove);
+        btnDel.setOnAction(e -> {
+            Trips selectedReservedTrip = (Trips) tableRes.getItems().get(tableRes.getSelectionModel().getSelectedIndex());
+            reservedTrips.remove(selectedReservedTrip);
+            trips.add(0, selectedReservedTrip);
+
+
+            resObservable.clear();
+            for (Trips trip : reservedTrips) {
+                resObservable.add(trip);
+            }
+            tableRes.setItems(resObservable);
+
+            tripsObservableList.clear();
+            for (Trips trip : trips) {
+                tripsObservableList.add(trip);
+            }
+            tableAva.setItems(tripsObservableList);
         });
 
     }
