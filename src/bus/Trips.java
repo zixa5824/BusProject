@@ -61,6 +61,10 @@ public class Trips {
     // -----------------------------------------------------------------------------------------------------------------
 
 
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
     public String getDriverAccountID() {
         return driverAccountID;
     }

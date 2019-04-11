@@ -190,7 +190,9 @@ public class ClientScene {
                 Trips selectedTrip = (Trips) tableAva.getItems().get(tableAva.getSelectionModel().getSelectedIndex());
                 reservedTrips.add(0, selectedTrip);
                 trips.remove(selectedTrip);
-
+                selectedTrip = AlertBox.reserveDisplay("Choose an Option","Please select Round Trip or One way Trip", selectedTrip);
+                boolean check = AlertBox.isCheck();
+                if(!check)  return;
                 // Clear the reserved trips observable list and refill with the array list with newly added reserved trip
                 resObservable.clear();
                 for (Trips trip : reservedTrips) {
@@ -216,7 +218,6 @@ public class ClientScene {
                     reservedTrips.remove(selectedReservedTrip);
                     trips.add(0, selectedReservedTrip);
 
-
                     resObservable.clear();
                     for (Trips trip : reservedTrips) {
                         resObservable.add(trip);
@@ -232,6 +233,7 @@ public class ClientScene {
                     AlertBox.display("ERROR","Please make sure to select the trip to delete");
                 }
         });
+
 
     }
 
