@@ -179,7 +179,10 @@ public class Admin implements AdminActions {
             }
             FileWriter fileWriter = new FileWriter(tripFile, false);
             for (int i = 0; i < tripList.size(); i++) {
-                fileWriter.write(tripList.get(i) + "\r\n");
+                if(i!=tripList.size()-1)
+                 fileWriter.write(tripList.get(i) + "\r\n");
+
+                else fileWriter.write(tripList.get(i));
             }
             fileWriter.close();
             actualFileScanner.close();
