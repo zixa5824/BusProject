@@ -10,8 +10,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import jdk.nashorn.internal.objects.annotations.Property;
-
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ClientScene {
@@ -183,16 +183,43 @@ public class ClientScene {
                 stopsColumn2, typeColumn2, vehicleTypeColumn2, priceColumn2, tripIDColumn2);
         tableRes.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
+        //Loading Reserved Trips for saved account of clients
+
+        ObservableList<Trips> obsTable1 = FXCollections.observableArrayList(), obsTable2 = FXCollections.observableArrayList();
+        ArrayList<Trips> tripsSaved = client.loadSavedTrips();
+        if(!tripsSaved.isEmpty()) {
+
+            for (int i = 0; i < tripsSaved.size(); i++) {
+                for (int j = 0; j < trips.size(); j++) {
+                    if (trips.get(j) == tripsSaved.get(i)) {
+                        trips.remove(j);
+                        j = trips.size();
+                    }
+                }
+            }
+            for (int i = 0; i < trips.size() ; i++) {
+                obsTable1.add(trips.get(i));
+            }
+            for (int i = 0; i < tripsSaved.size(); i++) {
+                obsTable2.add(tripsSaved.get(i));
+            }
+            tableAva.setItems(obsTable1);
+            tableRes.setItems(obsTable2);
+        }
+        //---------------
+
         //RESERVE TRIP
         btnRes.setOnAction(e -> {
             try
             {
+                AlertBox alertBox = new AlertBox();
                 Trips selectedTrip = (Trips) tableAva.getItems().get(tableAva.getSelectionModel().getSelectedIndex());
+                selectedTrip = alertBox.reserveDisplay("Choose an Option","Please select Round Trip or One way Trip", selectedTrip);
+                if(!alertBox.isCheck())  {
+                    return;
+                }
                 reservedTrips.add(0, selectedTrip);
                 trips.remove(selectedTrip);
-                selectedTrip = AlertBox.reserveDisplay("Choose an Option","Please select Round Trip or One way Trip", selectedTrip);
-                boolean check = AlertBox.isCheck();
-                if(!check)  return;
                 // Clear the reserved trips observable list and refill with the array list with newly added reserved trip
                 resObservable.clear();
                 for (Trips trip : reservedTrips) {
@@ -234,6 +261,10 @@ public class ClientScene {
                 }
         });
 
+        btnSave.setOnAction(e-> {
+            client.saveChanges(account.getAccountID(),reservedTrips);
+            save = true;
+        });
 
     }
 

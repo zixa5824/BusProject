@@ -16,7 +16,7 @@ import javafx.scene.control.*;
 import javafx.geometry.*;
 
 public class AlertBox {
-    private static boolean check = false;
+    private boolean check = false;
     public static void display(String title, String message) {
         Stage errorAlert = new Stage();
 
@@ -67,17 +67,22 @@ public class AlertBox {
         errorAlert.setScene(scene);
         errorAlert.showAndWait();
     }
-    public static Trips reserveDisplay(String title, String message, Trips selectedTrip) {
+    public Trips reserveDisplay(String title, String message, Trips selectedTrip) {
         Stage errorAlert = new Stage();
         errorAlert.initModality(Modality.APPLICATION_MODAL);
         errorAlert.setTitle(title);
-        errorAlert.setMinWidth(500);
         Label error = new Label();
-        error.setPrefWidth(331);
+        error.setPrefWidth(271);
         error.setPrefHeight(65);
-        error.setLayoutX(93);
-        error.setLayoutY(79);
+        error.setLayoutX(120);
+        error.setLayoutY(83);
         error.setText(message);
+        Label discountLabel = new Label();
+        discountLabel.setPrefWidth(247);
+        discountLabel.setPrefHeight(39);
+        discountLabel.setLayoutX(132);
+        discountLabel.setLayoutY(135);
+        discountLabel.setText("(Discount 30% on price if RoundTrip)");
         Button oneWayTripButton = new Button("OneWay Trip");
         oneWayTripButton.setLayoutX(280);
         oneWayTripButton.setLayoutY(224);
@@ -97,7 +102,7 @@ public class AlertBox {
             errorAlert.close();
         });
         Pane layout = new Pane();
-        layout.getChildren().addAll(error, oneWayTripButton,roundTripButton);
+        layout.getChildren().addAll(error, oneWayTripButton,roundTripButton,discountLabel);
         Scene scene = new Scene(layout);
         layout.setPrefSize(516,269);
         errorAlert.setScene(scene);
@@ -105,7 +110,11 @@ public class AlertBox {
         return  selectedTrip;
     }
 
-    public static boolean isCheck() {
+    public void setCheck(boolean check) {
+        this.check = check;
+    }
+
+    public boolean isCheck() {
         return check;
     }
 }

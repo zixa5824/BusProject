@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public interface ClientActions {
 
     ArrayList<Trips> listTrips();
-    void saveChanges(Trips[] tripAddToFile);
-
-
+    void saveChanges(String accountId,ArrayList<Trips>tripAddToFile);
+    ArrayList<Trips> loadSavedTrips();
 }
