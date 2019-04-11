@@ -11,7 +11,6 @@ public class  Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-
         // Initializing Login Scene and giving it the stage
         // Initializing logic class Account and give it to Login Scene class
         Account account = new Account();

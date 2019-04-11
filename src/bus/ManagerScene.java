@@ -225,8 +225,16 @@ public class ManagerScene {
         datePicker.setPrefWidth(149);
         datePicker.setPrefHeight(25);
 
+        ArrayList<Vehicle> vehicles = new ArrayList();
+        Vehicle busVehicle = new Bus();
+        Vehicle limousineVehicle = new Limousine();
+        Vehicle minibusVehicle = new Minibus();
+        vehicles.add(busVehicle); vehicles.add(limousineVehicle); vehicles.add(minibusVehicle);
+
         ComboBox vehicleBox = new ComboBox();
-        vehicleBox.getItems().addAll("Bus", "Limousine", "Minibus");
+        for (Vehicle vehicle:vehicles) {
+            vehicleBox.getItems().add(vehicle.getType());
+        }
         vehicleBox.setLayoutX(431);
         vehicleBox.setLayoutY(317);
         vehicleBox.setPrefWidth(149);
