@@ -210,6 +210,8 @@ public class ClientScene {
         //---------------
 
         //RESERVE TRIP
+        Ticket ticket = new Ticket();
+        ticket.setAccountID(account.getAccountID());
         btnRes.setOnAction(e -> {
             try
             {

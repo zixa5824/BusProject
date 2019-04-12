@@ -15,8 +15,11 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.geometry.*;
 
+import java.util.ArrayList;
+
 public class AlertBox {
     private boolean check = false;
+    Ticket ticket = new Ticket();
     public static void display(String title, String message) {
         Stage errorAlert = new Stage();
 
@@ -96,6 +99,7 @@ public class AlertBox {
         roundTripButton.setOnAction(e-> {
             String currency = selectedTrip.getPrice().substring(0,3);
             String price = selectedTrip.getPrice().substring(3);
+            ticket.addRoundTicket(selectedTrip);
             System.out.println(currency+price);
             selectedTrip.setPrice(currency+Integer.toString((int) (Integer.parseInt(price)*0.7)));
             check = true;
