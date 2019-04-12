@@ -19,7 +19,7 @@ public class ClientScene {
     private Scene scene;
     private Scene homeScene;
     private boolean save = false;
-
+    Ticket ticket = new Ticket();
     public ClientScene(Stage stage , Account account) {
         Pane pane = new Pane();
         //client scene
@@ -244,7 +244,15 @@ public class ClientScene {
                 try
                 {
                     save = false;
+                    ArrayList<String> returnToOriginalPrice = ticket.loadRoundTickets(account.getAccountID());
                     Trips selectedReservedTrip = (Trips) tableRes.getItems().get(tableRes.getSelectionModel().getSelectedIndex());
+                    for (int i = 0; i < returnToOriginalPrice.size(); i++) {
+                        if(selectedReservedTrip.getTripID().equals(returnToOriginalPrice.get(i)))
+                        {
+                            //selectedReservedTrip.setPrice(returnToOriginalPrice.get(i).);
+                            break;
+                        }
+                    }
                     reservedTrips.remove(selectedReservedTrip);
                     trips.add(0, selectedReservedTrip);
 
@@ -253,7 +261,6 @@ public class ClientScene {
                         resObservable.add(trip);
                     }
                     tableRes.setItems(resObservable);
-
                     tripsObservableList.clear();
                     for (Trips trip : trips) {
                         tripsObservableList.add(trip);
