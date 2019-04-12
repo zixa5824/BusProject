@@ -130,6 +130,7 @@ public class Admin implements AdminActions {
     @Override
     public void deleteTrip(Trips trip) {
         File tripFile = new File("src//trips.txt");
+        File clientFile = new File("src//clients.txt");
         String tripID = trip.getTripID();
         try {
             Scanner actualFileScanner = new Scanner(tripFile);
@@ -149,6 +150,29 @@ public class Admin implements AdminActions {
             }
             fileWriter.close();
             actualFileScanner.close();
+
+            ArrayList<String> clientList = new ArrayList<>();
+            actualFileScanner = new Scanner(clientFile);
+            while (actualFileScanner.hasNext()){
+                currentLine = actualFileScanner.nextLine();
+                if(currentLine.contains(tripID)) {
+                    currentLine = currentLine.replace(tripID,"\b");
+                    clientList.add(currentLine);
+                    continue;
+                }
+                clientList.add(currentLine);
+            }
+            actualFileScanner.close();
+
+            System.out.println(clientList);
+
+            fileWriter = new FileWriter(clientFile, false);
+            for (int i = 0; i < clientList.size(); i++) {
+
+                fileWriter.write(clientList.get(i)+"\r\n");
+            }
+            fileWriter.close();
+
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -179,10 +203,8 @@ public class Admin implements AdminActions {
             }
             FileWriter fileWriter = new FileWriter(tripFile, false);
             for (int i = 0; i < tripList.size(); i++) {
-                if(i!=tripList.size()-1)
-                    fileWriter.write(tripList.get(i) + "\r\n");
 
-                else fileWriter.write(tripList.get(i));
+                fileWriter.write(tripList.get(i) + "\r\n");
             }
             fileWriter.close();
             actualFileScanner.close();
