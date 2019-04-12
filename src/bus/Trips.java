@@ -1,7 +1,5 @@
 package bus;
 
-import com.sun.xml.internal.bind.v2.model.core.ID;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -61,6 +59,7 @@ public class Trips {
         return null;
     }
     // -----------------------------------------------------------------------------------------------------------------
+
     public Trips getTripOfID(String ID) {
         FileReader fileReader = null;
         String next;
@@ -77,8 +76,8 @@ public class Trips {
                             , actualFileScanner.next(), actualFileScanner.next(),
                             actualFileScanner.next(), actualFileScanner.next(), actualFileScanner.next(),
                             actualFileScanner.next(), actualFileScanner.next(), actualFileScanner.next());
-                return trip;
-            }
+                    return trip;
+                }
             }
             actualFileScanner.close();
             fileReader.close();

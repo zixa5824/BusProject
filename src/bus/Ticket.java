@@ -79,4 +79,35 @@ public class Ticket {
         return roundTrips;
     }
 
+    public void removeRoundTrip(String accountID, String tripID)
+    {
+        try {
+            FileReader fileReader = new FileReader("src//tickets.txt");
+            Scanner scan = new Scanner(fileReader);
+            scan.nextLine();
+            String scannedLine = scan.nextLine();
+            while(scan.hasNext())
+            {
+                if(scannedLine.contains(accountID))
+                {
+                    Scanner impScan = new Scanner(scannedLine);
+                    impScan.next();//IGNORE ACCOUNT ID
+                    String trip = impScan.next();
+                    while(impScan.hasNext())
+                    {
+
+                        if(trip.equals(tripID)) continue;
+
+                    }
+                }
+                else
+                {
+                    scannedLine = scan.nextLine();
+                }
+            }
+        } catch ( FileNotFoundException e ) {
+            AlertBox.display("ERROR","FILE NOT FOUND");
+        }
+    }
+
 }

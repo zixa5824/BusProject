@@ -249,7 +249,9 @@ public class ClientScene {
                     for (int i = 0; i < returnToOriginalPrice.size(); i++) {
                         if(selectedReservedTrip.getTripID().equals(returnToOriginalPrice.get(i)))
                         {
-                            //selectedReservedTrip.setPrice(returnToOriginalPrice.get(i).);
+                            Trips trip = new Trips();
+                            selectedReservedTrip = trip.getTripOfID(returnToOriginalPrice.get(i));
+                            ticket.removeRoundTrip(account.getAccountID(),selectedReservedTrip.getTripID());
                             break;
                         }
                     }
