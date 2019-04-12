@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class Ticket {
 
-    private String accountID;
+    private String accountID = new String();
 
     public void addRoundTicket(Trips roundTrip)
     {
@@ -44,9 +44,10 @@ public class Ticket {
                     fileTicket.add(scannedLine);
                 }
             }
-            String add = accountID;
+            String add = new String();
+            add += (accountID+" ");
             for (int i = 0; i < roundTicketsAddToFile.size(); i++) {
-                add += (" "+roundTicketsAddToFile.get(i));
+                add += roundTicketsAddToFile.get(i)+" ";
             }
             System.out.println(add);
             fileTicket.add(add);
@@ -64,7 +65,6 @@ public class Ticket {
             AlertBox.display("ERROR","IOEXCEPTION");
         }
     }
-
     public void setAccountID(String accountID) {
         this.accountID = accountID;
     }
