@@ -9,6 +9,16 @@ import java.util.Scanner;
 
 public class Admin implements AdminActions {
 
+    @Override
+    public ArrayList<Vehicle> listVehicles() {
+        ArrayList<Vehicle> vehicles = new ArrayList();
+        Vehicle busVehicle = new Bus();
+        Vehicle limousineVehicle = new Limousine();
+        Vehicle minibusVehicle = new Minibus();
+        vehicles.add(busVehicle); vehicles.add(limousineVehicle); vehicles.add(minibusVehicle);
+        return vehicles;
+    }
+
     // -----------------------------------------------------------------------------------------------------------------
     @Override
     public ArrayList<Trips> listTrips() {
@@ -153,18 +163,29 @@ public class Admin implements AdminActions {
 
             ArrayList<String> clientList = new ArrayList<>();
             actualFileScanner = new Scanner(clientFile);
+
             while (actualFileScanner.hasNext()){
                 currentLine = actualFileScanner.nextLine();
+
                 if(currentLine.contains(tripID)) {
-                    currentLine = currentLine.replace(tripID,"\b");
+                    String[] splitter = new String[currentLine.length()];
+                    splitter = currentLine.split(" ");
+                    currentLine = splitter[0];
+
+                    for (int i = 1; i < splitter.length; i++) {
+                        if(!splitter[i].equals(tripID)) 
+                            currentLine += (" "+splitter[i]);
+                    }
+
+                    if(currentLine.length() == 8)
+                        currentLine += " -";
+
                     clientList.add(currentLine);
                     continue;
                 }
                 clientList.add(currentLine);
             }
             actualFileScanner.close();
-
-            System.out.println(clientList);
 
             fileWriter = new FileWriter(clientFile, false);
             for (int i = 0; i < clientList.size(); i++) {
