@@ -1,5 +1,7 @@
 package bus;
 
+import com.sun.xml.internal.bind.v2.model.core.ID;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -59,7 +61,34 @@ public class Trips {
         return null;
     }
     // -----------------------------------------------------------------------------------------------------------------
+    public Trips getTripOfID(String ID) {
+        FileReader fileReader = null;
+        String next;
+        Trips trip;
+        try {
+            fileReader = new FileReader("src//trips.txt");
+            Scanner actualFileScanner = new Scanner(fileReader);
 
+            while (actualFileScanner.hasNext()) {
+                next = actualFileScanner.next();
+                if(next.equals(ID)){
+                    trip = new Trips(next, actualFileScanner.next(),
+                            actualFileScanner.next() + " " + actualFileScanner.next()
+                            , actualFileScanner.next(), actualFileScanner.next(),
+                            actualFileScanner.next(), actualFileScanner.next(), actualFileScanner.next(),
+                            actualFileScanner.next(), actualFileScanner.next(), actualFileScanner.next());
+                return trip;
+            }
+            }
+            actualFileScanner.close();
+            fileReader.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public void setPrice(String price) {
         this.price = price;
