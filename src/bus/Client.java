@@ -84,10 +84,41 @@ public class Client implements ClientActions{
 
     }
 
-    public ArrayList<Trips> loadSavedTrips()
+    public ArrayList<Trips> loadSavedTrips(String accountID)
     {
-        ArrayList<Trips> tripsID = new ArrayList<>();
+        ArrayList<Trips> tripsIdToTrips = new ArrayList<>();
+        ArrayList<Trips> trips = listTrips();
+        try{
+            FileReader fileReader = new FileReader("src//clients.txt");
+            Scanner scan = new Scanner(fileReader);
+            String scannedLine = new String();
+            scan.nextLine(); // Ignoring first line.
+            while(scan.hasNext()) {
+                scannedLine = scan.nextLine();
+                Scanner impScan = new Scanner(scannedLine);
+                String fileTripID = impScan.next();
+                System.out.println(fileTripID);
+                if(accountID.equals(fileTripID))
+                {
+                    while(impScan.hasNext())
+                    {
+                        fileTripID = impScan.next();
+                        for (int j = 0; j < trips.size() ; j++) {
+                            String tripID = trips.get(j).getTripID();
+                            if(tripID.equals(fileTripID)){
+                                tripsIdToTrips.add(trips.get(j));
+                                j = trips.size();
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
 
-        return tripsID;
+        }catch( FileNotFoundException e ) {
+            AlertBox.display("Error","File Not Found");
+        }
+
+        return tripsIdToTrips;
     }
 }

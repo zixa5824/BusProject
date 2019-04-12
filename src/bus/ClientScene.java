@@ -103,7 +103,7 @@ public class ClientScene {
         ObservableList<Trips> resObservable = FXCollections.observableArrayList();
         Client client = new Client();
         ArrayList<Trips> trips = client.listTrips();
-        ArrayList<Trips> reservedTrips = new ArrayList<>();
+        ArrayList<Trips> reservedTrips;
 
         for (int i = 0; i < trips.size(); i++) {
             tripsObservableList.add(trips.get(i));
@@ -186,12 +186,12 @@ public class ClientScene {
         //Loading Reserved Trips for saved account of clients
 
         ObservableList<Trips> obsTable1 = FXCollections.observableArrayList(), obsTable2 = FXCollections.observableArrayList();
-        ArrayList<Trips> tripsSaved = client.loadSavedTrips();
-        if(!tripsSaved.isEmpty()) {
+        reservedTrips = client.loadSavedTrips(account.getAccountID());
+        if(!reservedTrips.isEmpty()) {
 
-            for (int i = 0; i < tripsSaved.size(); i++) {
+            for (int i = 0; i < reservedTrips.size(); i++) {
                 for (int j = 0; j < trips.size(); j++) {
-                    if (trips.get(j) == tripsSaved.get(i)) {
+                    if (trips.get(j) == reservedTrips.get(i)) {
                         trips.remove(j);
                         j = trips.size();
                     }
@@ -200,11 +200,12 @@ public class ClientScene {
             for (int i = 0; i < trips.size() ; i++) {
                 obsTable1.add(trips.get(i));
             }
-            for (int i = 0; i < tripsSaved.size(); i++) {
-                obsTable2.add(tripsSaved.get(i));
+            for (int i = 0; i < reservedTrips.size(); i++) {
+                obsTable2.add(reservedTrips.get(i));
             }
             tableAva.setItems(obsTable1);
             tableRes.setItems(obsTable2);
+            save = true;
         }
         //---------------
 
@@ -212,13 +213,14 @@ public class ClientScene {
         btnRes.setOnAction(e -> {
             try
             {
+                save = false;
                 AlertBox alertBox = new AlertBox();
                 Trips selectedTrip = (Trips) tableAva.getItems().get(tableAva.getSelectionModel().getSelectedIndex());
                 selectedTrip = alertBox.reserveDisplay("Choose an Option","Please select Round Trip or One way Trip", selectedTrip);
                 if(!alertBox.isCheck())  {
                     return;
                 }
-                reservedTrips.add(0, selectedTrip);
+                reservedTrips.add(selectedTrip);
                 trips.remove(selectedTrip);
                 // Clear the reserved trips observable list and refill with the array list with newly added reserved trip
                 resObservable.clear();
@@ -241,6 +243,7 @@ public class ClientScene {
         btnDel.setOnAction(e -> {
                 try
                 {
+                    save = false;
                     Trips selectedReservedTrip = (Trips) tableRes.getItems().get(tableRes.getSelectionModel().getSelectedIndex());
                     reservedTrips.remove(selectedReservedTrip);
                     trips.add(0, selectedReservedTrip);
