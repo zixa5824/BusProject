@@ -10,20 +10,18 @@ import java.util.Scanner;
 
 public class Ticket {
 
-    private String accountID = new String();
 
-    public void addRoundTicket(Trips roundTrip)
+    public void addRoundTicket(String accountID,String roundTrip)
     {
         ArrayList<String> roundTicketsAddToFile = new ArrayList<>();
         ArrayList<String> fileTicket = new ArrayList<>();
-        roundTicketsAddToFile.add(roundTrip.getTripID());
+        roundTicketsAddToFile.add(roundTrip);
         try {
             FileReader fileReader = new FileReader("src//tickets.txt");
             Scanner scan = new Scanner(fileReader);
             String scannedLine = scan.nextLine();
             fileTicket.add(scannedLine); // IGNORE FIRST LINE
             scannedLine = scan.nextLine();
-            System.out.println(scannedLine);
             while(scan.hasNext())
             {
                 Scanner impScan = new Scanner(scannedLine);
@@ -31,13 +29,13 @@ public class Ticket {
                 if(fileAccountID.equals(accountID))
                 {
                     String roundFileTrip = impScan.next();
+                    System.out.println(fileAccountID);
                     while(impScan.hasNext())
                     {
                         roundTicketsAddToFile.add(roundFileTrip);
                         roundFileTrip = impScan.next();
                     }
-
-
+                    scannedLine = scan.nextLine();
                 }
                 else {
                     scannedLine = scan.nextLine();
@@ -64,8 +62,5 @@ public class Ticket {
         } catch ( IOException e ) {
             AlertBox.display("ERROR","IOEXCEPTION");
         }
-    }
-    public void setAccountID(String accountID) {
-        this.accountID = accountID;
     }
 }

@@ -173,7 +173,7 @@ public class Admin implements AdminActions {
                     currentLine = splitter[0];
 
                     for (int i = 1; i < splitter.length; i++) {
-                        if(!splitter[i].equals(tripID)) 
+                        if(!splitter[i].equals(tripID))
                             currentLine += (" "+splitter[i]);
                     }
 

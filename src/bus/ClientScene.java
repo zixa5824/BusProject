@@ -210,15 +210,13 @@ public class ClientScene {
         //---------------
 
         //RESERVE TRIP
-        Ticket ticket = new Ticket();
-        ticket.setAccountID(account.getAccountID());
         btnRes.setOnAction(e -> {
             try
             {
                 save = false;
                 AlertBox alertBox = new AlertBox();
                 Trips selectedTrip = (Trips) tableAva.getItems().get(tableAva.getSelectionModel().getSelectedIndex());
-                selectedTrip = alertBox.reserveDisplay("Choose an Option","Please select Round Trip or One way Trip", selectedTrip);
+                selectedTrip = alertBox.reserveDisplay("Choose an Option","Please select Round Trip or One way Trip", selectedTrip,account.getAccountID());
                 if(!alertBox.isCheck())  {
                     return;
                 }

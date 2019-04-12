@@ -70,7 +70,7 @@ public class AlertBox {
         errorAlert.setScene(scene);
         errorAlert.showAndWait();
     }
-    public Trips reserveDisplay(String title, String message, Trips selectedTrip) {
+    public Trips reserveDisplay(String title, String message, Trips selectedTrip,String accountID) {
         Stage errorAlert = new Stage();
         errorAlert.initModality(Modality.APPLICATION_MODAL);
         errorAlert.setTitle(title);
@@ -92,19 +92,22 @@ public class AlertBox {
         Button roundTripButton = new Button("Round Trip");
         roundTripButton.setLayoutX(400);
         roundTripButton.setLayoutY(224);
+
         oneWayTripButton.setOnAction(e->{
             check = true;
             errorAlert.close();
         });
+
         roundTripButton.setOnAction(e-> {
+            ticket.addRoundTicket(accountID,selectedTrip.getTripID());
             String currency = selectedTrip.getPrice().substring(0,3);
             String price = selectedTrip.getPrice().substring(3);
-            ticket.addRoundTicket(selectedTrip);
             System.out.println(currency+price);
             selectedTrip.setPrice(currency+Integer.toString((int) (Integer.parseInt(price)*0.7)));
             check = true;
             errorAlert.close();
         });
+
         Pane layout = new Pane();
         layout.getChildren().addAll(error, oneWayTripButton,roundTripButton,discountLabel);
         Scene scene = new Scene(layout);
